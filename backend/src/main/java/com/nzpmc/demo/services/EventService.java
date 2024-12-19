@@ -9,10 +9,7 @@ import com.nzpmc.demo.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -45,9 +42,19 @@ public class EventService {
         Event event = eventRepository.findById(eventId).orElseThrow(()-> new NoSuchElementException("Could not find event with id"));
         Student student = studentRepository.findById(studentId).orElseThrow(()-> new NoSuchElementException("Could not find student with id"));
 
+        // Initialize the list if it is null
+        if (event.getParticipatingStudents() == null) {
+            event.setParticipatingStudents(new ArrayList<>());
+        }
+
         // Check if the student is already participating in the event
         if (event.getParticipatingStudents().contains(student)) {
             throw new IllegalStateException("Student is already participating in the event.");
+        }
+
+        // Initialize the list if it is null for the student
+        if (student.getEventsParticipated() == null) {
+            student.setEventsParticipated(new ArrayList<>());
         }
 
         // Add the student to the event's participating students
@@ -80,12 +87,6 @@ public class EventService {
 
         // Retrieve all events from the repository
         List<Event> allEvents = eventRepository.findAll();
-
-        // Retrieve the events the student has already participated in
-//        List<Event> joinedEvents = student.getEventsParticipated();
-//        if (joinedEvents == null) {
-//            joinedEvents = Collections.emptyList();
-//        }
 
         List<Event> joinedEvents = Optional.ofNullable(student.getEventsParticipated())
                 .orElse(Collections.emptyList());
