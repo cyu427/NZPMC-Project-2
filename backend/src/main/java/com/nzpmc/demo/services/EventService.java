@@ -9,8 +9,10 @@ import com.nzpmc.demo.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -63,7 +65,8 @@ public class EventService {
         Student student = studentRepository.findById(studentId).orElseThrow(()-> new NoSuchElementException("Could not find student with id"));
 
         // Get the list of events the student has participated in
-        List<Event> eventsParticipated = student.getEventsParticipated();
+        List<Event> eventsParticipated = Optional.ofNullable(student.getEventsParticipated())
+                .orElse(Collections.emptyList());
 
         // Convert the events to EventDetailDTO using the mapper
         EventDetailMapper mapper = new EventDetailMapper();
@@ -79,18 +82,24 @@ public class EventService {
         List<Event> allEvents = eventRepository.findAll();
 
         // Retrieve the events the student has already participated in
-        List<Event> joinedEvents = student.getEventsParticipated();
+//        List<Event> joinedEvents = student.getEventsParticipated();
+//        if (joinedEvents == null) {
+//            joinedEvents = Collections.emptyList();
+//        }
+
+        List<Event> joinedEvents = Optional.ofNullable(student.getEventsParticipated())
+                .orElse(Collections.emptyList());
 
         // Filter out the events the student has already joined
         List<Event> notJoinedEvents = allEvents.stream()
                 .filter(event -> !joinedEvents.contains(event))
                 .toList();
 
-        // Convert the events the student hasn't joined to EventDetailDTO
         EventDetailMapper mapper = new EventDetailMapper();
         return notJoinedEvents.stream()
                 .map(mapper::convertToDTO)
                 .toList();
+
     }
 
 }
