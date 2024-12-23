@@ -4,43 +4,51 @@ import com.nzpmc.demo.dto.student.StudentProfileDTO;
 import com.nzpmc.demo.dto.student.StudentRegistrationDTO;
 import com.nzpmc.demo.mapper.student.StudentProfileMapper;
 import com.nzpmc.demo.mapper.student.StudentRegistrationMapper;
-import com.nzpmc.demo.models.Student;
-import com.nzpmc.demo.repository.StudentRepository;
+import com.nzpmc.demo.models.Account;
+import com.nzpmc.demo.models.Role;
+import com.nzpmc.demo.repository.AccountRepository;
+import com.nzpmc.demo.utils.AccountProjection;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class StudentService {
-    private final StudentRepository studentRepository;
+    private final AccountRepository accountRepository;
+    //private final StudentRepository studentRepository;
 
     public StudentProfileDTO getStudentById(String id) {
-        Student student = studentRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Could not find student with id"));
+        Account account = accountRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Could not find student with id"));
         StudentProfileMapper studentProfileMapper = new StudentProfileMapper();
-        return studentProfileMapper.convertToDTO(student);
+        return studentProfileMapper.convertToDTO(account);
     }
 
-    public Student updateStudentDetails(String id, StudentProfileDTO studentProfileDTO) {
-        Student student = studentRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Could not find student with id"));
+    public Account updateStudentDetails(String id, StudentProfileDTO studentProfileDTO) {
+        Account account = accountRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Could not find student with id"));
         StudentProfileMapper studentProfileMapper = new StudentProfileMapper();
-        student = studentProfileMapper.convertToModel(student, studentProfileDTO);
-        studentRepository.save(student);
-        return student;
+        account = studentProfileMapper.convertToModel(account, studentProfileDTO);
+        accountRepository.save(account);
+        return account;
     }
 
     public void createStudent(StudentRegistrationDTO studentRegistrationDTO) {
         // Check if a student with the same email already exists
         String email = studentRegistrationDTO.getStudentProfile().getEmail();
-        studentRepository.findByEmail(email).ifPresent(existingStudent -> {
+        accountRepository.findByUsername(email).ifPresent(existingStudent -> {
             throw new IllegalArgumentException("A student with this email already exists.");
         });
 
         // Convert DTO to Model and save the student
-        Student student = new StudentRegistrationMapper().convertToModel(studentRegistrationDTO);
-        studentRepository.save(student);
+        Account account = new StudentRegistrationMapper().convertToModel(studentRegistrationDTO);
+        account.setRole(Role.STUDENT);
+        accountRepository.save(account);
+    }
+
+    public List<AccountProjection> getAllStudents() {
+        return accountRepository.findByRole(Role.STUDENT);
     }
 
 

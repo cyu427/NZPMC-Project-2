@@ -25,7 +25,7 @@ public class Event {
     private String description;
 
     @DBRef(lazy = true)
-    private List<Student> participatingStudents;
+    private List<Account> participatingStudents;
 
     public Event(String name, Date dateTime, String location, double cost, String description) {
         this.name = name;

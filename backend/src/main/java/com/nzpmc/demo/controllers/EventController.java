@@ -23,25 +23,25 @@ import java.util.NoSuchElementException;
 public class EventController {
     private final EventService eventService;
 
-    @PostMapping
-    public ResponseEntity createEvent(@Valid @RequestBody EventDetailDTO eventDetailDTO) {
-        try {
-            eventService.createEvent(eventDetailDTO);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
-
-    @PutMapping("{id}")
-    public ResponseEntity updateEvent(@PathVariable String id, @Valid @RequestBody EventDetailDTO eventDetailDTO) {
-        try {
-            Event updatedEvent = eventService.editEvent(id, eventDetailDTO);
-            return ResponseEntity.ok(updatedEvent);
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event with id " + id + " not found.");
-        }
-    }
+//    @PostMapping
+//    public ResponseEntity createEvent(@Valid @RequestBody EventDetailDTO eventDetailDTO) {
+//        try {
+//            eventService.createEvent(eventDetailDTO);
+//            return ResponseEntity.ok().build();
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
+//
+//    @PutMapping("{id}")
+//    public ResponseEntity updateEvent(@PathVariable String id, @Valid @RequestBody EventDetailDTO eventDetailDTO) {
+//        try {
+//            Event updatedEvent = eventService.editEvent(id, eventDetailDTO);
+//            return ResponseEntity.ok(updatedEvent);
+//        } catch (NoSuchElementException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event with id " + id + " not found.");
+//        }
+//    }
 
     @PutMapping("{studentId}/join/{eventId}")
     public ResponseEntity joinEvent(@PathVariable String eventId, @PathVariable String studentId) {

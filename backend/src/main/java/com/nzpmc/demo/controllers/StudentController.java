@@ -2,6 +2,7 @@ package com.nzpmc.demo.controllers;
 
 import com.nzpmc.demo.dto.student.StudentProfileDTO;
 import com.nzpmc.demo.dto.student.StudentRegistrationDTO;
+import com.nzpmc.demo.models.Account;
 import com.nzpmc.demo.models.Student;
 import com.nzpmc.demo.services.StudentService;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class StudentController {
     @PutMapping("{id}")
     public ResponseEntity updateStudent(@PathVariable String id, @Valid @RequestBody StudentProfileDTO student) {
         try {
-            Student updatedStudent = studentService.updateStudentDetails(id, student);
+            Account updatedStudent = studentService.updateStudentDetails(id, student);
             return ResponseEntity.ok(updatedStudent);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with id " + id + " not found.");
