@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Document("account")
-@Getter
-@Setter
+@Data
 public class Account {
     @Id
     private String id;

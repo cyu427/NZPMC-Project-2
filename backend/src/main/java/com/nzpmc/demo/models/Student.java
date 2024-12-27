@@ -57,9 +57,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
 public class Student {
     private String firstName;
     private String lastName;

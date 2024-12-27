@@ -1,13 +1,13 @@
 package com.nzpmc.demo.dto.event;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
-@Setter
-@Getter
+@Data
 public class EventDetailDTO {
     private String id;
 

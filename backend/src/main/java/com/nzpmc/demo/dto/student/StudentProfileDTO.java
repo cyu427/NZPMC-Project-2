@@ -2,16 +2,11 @@ package com.nzpmc.demo.dto.student;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
 
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class StudentProfileDTO {
     @NotNull(message = "Email is required")
     @Email(message = "Email must be a valid email address")

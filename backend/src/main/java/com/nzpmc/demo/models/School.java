@@ -6,9 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("school")
-@Getter @Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class School {
 
     @Id

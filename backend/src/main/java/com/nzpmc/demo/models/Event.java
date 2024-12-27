@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Document("event")
-@Getter @Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class Event {
     @Id
     private String id;
@@ -23,6 +21,9 @@ public class Event {
     private String location;
     private double cost;
     private String description;
+
+    @DBRef(lazy = true)
+    private Competition competition;
 
     @DBRef(lazy = true)
     private List<Account> participatingStudents;
