@@ -2,6 +2,7 @@ package com.nzpmc.demo.controllers.admin;
 
 import com.nzpmc.demo.dto.event.EventDetailDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
+import com.nzpmc.demo.dto.student.StudentProfileDTO;
 import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
 import com.nzpmc.demo.services.EventService;
@@ -51,6 +52,16 @@ public class AdminQuestionController {
             return ResponseEntity.ok(allQuestions);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity getQuestion(@PathVariable String id) {
+        try {
+            QuestionDTO question = questionService.getQuestionById(id);
+            return ResponseEntity.ok(question);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question with id " + id + " not found.");
         }
     }
 

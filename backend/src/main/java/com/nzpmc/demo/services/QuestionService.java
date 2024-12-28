@@ -3,8 +3,11 @@ package com.nzpmc.demo.services;
 import com.nzpmc.demo.dto.event.EventDetailDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
 import com.nzpmc.demo.dto.question.QuestionOverviewDTO;
+import com.nzpmc.demo.dto.student.StudentProfileDTO;
 import com.nzpmc.demo.mapper.event.EventDetailMapper;
 import com.nzpmc.demo.mapper.question.QuestionMapper;
+import com.nzpmc.demo.mapper.student.StudentProfileMapper;
+import com.nzpmc.demo.models.Account;
 import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
 import com.nzpmc.demo.models.Role;
@@ -38,6 +41,11 @@ public class QuestionService {
 
     public List<ViewAllQuestionProjection> getAllQuestionOverview() {
         return questionRepository.findAllBy();
+    }
+
+    public QuestionDTO getQuestionById(String id) {
+        Question question = questionRepository.findById(id).orElseThrow(()-> new NoSuchElementException("Could not find question with id"));
+        return new QuestionMapper().convertToDTO(question);
     }
 
 
