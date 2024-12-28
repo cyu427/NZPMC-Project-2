@@ -2,14 +2,19 @@ package com.nzpmc.demo.services;
 
 import com.nzpmc.demo.dto.event.EventDetailDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
+import com.nzpmc.demo.dto.question.QuestionOverviewDTO;
 import com.nzpmc.demo.mapper.event.EventDetailMapper;
 import com.nzpmc.demo.mapper.question.QuestionMapper;
 import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
+import com.nzpmc.demo.models.Role;
 import com.nzpmc.demo.repository.QuestionRepository;
+import com.nzpmc.demo.utils.AccountProjection;
+import com.nzpmc.demo.utils.ViewAllQuestionProjection;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -30,4 +35,10 @@ public class QuestionService {
         questionRepository.save(question);
         return question;
     }
+
+    public List<ViewAllQuestionProjection> getAllQuestionOverview() {
+        return questionRepository.findAllBy();
+    }
+
+
 }

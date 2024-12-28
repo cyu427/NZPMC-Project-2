@@ -6,12 +6,15 @@ import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
 import com.nzpmc.demo.services.EventService;
 import com.nzpmc.demo.services.QuestionService;
+import com.nzpmc.demo.utils.AccountProjection;
+import com.nzpmc.demo.utils.ViewAllQuestionProjection;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @CrossOrigin
@@ -38,6 +41,16 @@ public class AdminQuestionController {
             return ResponseEntity.ok(updatedQuestion);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question with id " + id + " not found.");
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity getAllQuestions() {
+        try {
+            List<ViewAllQuestionProjection> allQuestions = questionService.getAllQuestionOverview();
+            return ResponseEntity.ok(allQuestions);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
