@@ -28,13 +28,13 @@ public class Event {
     @DBRef(lazy = true)
     private List<Account> participatingStudents;
 
-    public Event(String name, Date dateTime, String location, double cost, String description) {
-        this.name = name;
-        this.dateTime = dateTime;
-        this.location = location;
-        this.cost = cost;
-        this.description = description;
-    }
+//    public Event(String name, Date dateTime, String location, double cost, String description) {
+//        this.name = name;
+//        this.dateTime = dateTime;
+//        this.location = location;
+//        this.cost = cost;
+//        this.description = description;
+//    }
 
     @Override
     public boolean equals(Object o) {
