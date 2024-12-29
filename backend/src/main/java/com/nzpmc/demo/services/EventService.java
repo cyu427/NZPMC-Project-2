@@ -2,10 +2,9 @@ package com.nzpmc.demo.services;
 
 import com.nzpmc.demo.dto.event.EventDetailDTO;
 import com.nzpmc.demo.mapper.event.EventDetailMapper;
-import com.nzpmc.demo.models.Account;
-import com.nzpmc.demo.models.Event;
-import com.nzpmc.demo.models.Student;
+import com.nzpmc.demo.models.*;
 import com.nzpmc.demo.repository.AccountRepository;
+import com.nzpmc.demo.repository.CompetitionRepository;
 import com.nzpmc.demo.repository.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

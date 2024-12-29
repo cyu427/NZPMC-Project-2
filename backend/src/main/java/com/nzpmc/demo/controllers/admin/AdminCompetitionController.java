@@ -35,7 +35,7 @@ public class AdminCompetitionController {
         }
     }
 
-    @PutMapping("{competitionId}/{questionId}")
+    @PutMapping("addQuestionToCompetition/{competitionId}/{questionId}")
     public ResponseEntity addQuestionToCompetition(@PathVariable String competitionId, @PathVariable String questionId) {
         try {
             competitionService.addQuestionToCompetition(competitionId, questionId);
@@ -54,6 +54,18 @@ public class AdminCompetitionController {
             return ResponseEntity.ok(allCompetitions);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("addCompetitionToEvent/{competitionId}/{eventId}")
+    public ResponseEntity addCompetitionToEvent(@PathVariable String competitionId, @PathVariable String eventId) {
+        try {
+            competitionService.addCompetitionToEvent(competitionId, eventId);
+            return ResponseEntity.ok("Competition with id " + competitionId + " successfully added to event with id " + eventId);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

@@ -3,18 +3,15 @@ package com.nzpmc.demo.services;
 import com.nzpmc.demo.dto.competition.CreateCompetitionDTO;
 import com.nzpmc.demo.dto.competition.EditCompetitionDTO;
 import com.nzpmc.demo.dto.competition.ViewCompetitionDTO;
-import com.nzpmc.demo.dto.event.EventDetailDTO;
-import com.nzpmc.demo.dto.question.QuestionDTO;
 import com.nzpmc.demo.mapper.competition.CreateCompetitionMapper;
 import com.nzpmc.demo.mapper.competition.EditCompetitionMapper;
 import com.nzpmc.demo.mapper.competition.ViewCompetitionMapper;
-import com.nzpmc.demo.mapper.event.EventDetailMapper;
-import com.nzpmc.demo.mapper.question.QuestionMapper;
 import com.nzpmc.demo.models.Competition;
 import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
 import com.nzpmc.demo.projection.ViewAllCompetitionProjection;
 import com.nzpmc.demo.repository.CompetitionRepository;
+import com.nzpmc.demo.repository.EventRepository;
 import com.nzpmc.demo.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -30,6 +26,7 @@ import java.util.stream.Collectors;
 public class CompetitionService {
     private final CompetitionRepository competitionRepository;
     private final QuestionRepository questionRepository;
+    private final EventRepository eventRepository;
 
     public Competition createCompetition(CreateCompetitionDTO createCompetitionDTO) {
         Competition competition = new CreateCompetitionMapper().convertToModel(createCompetitionDTO);
@@ -37,7 +34,7 @@ public class CompetitionService {
         return competition;
     }
 
-    public Competition addQuestionToCompetition(String competitionId, String questionId) {
+    public void addQuestionToCompetition(String competitionId, String questionId) {
         Competition competition = competitionRepository.findById(competitionId).orElseThrow(()-> new NoSuchElementException("Could not find competition with id"));
         Question question = questionRepository.findById(questionId).orElseThrow(()-> new NoSuchElementException("Could not find question with id"));
 
@@ -54,7 +51,6 @@ public class CompetitionService {
 
         competition.getQuestions().add(question);
         competitionRepository.save(competition);
-        return competition;
     }
 
     public ViewCompetitionDTO getCompetition(String competitionId) {
@@ -66,6 +62,18 @@ public class CompetitionService {
         return competitionRepository.findAllBy();
     }
 
+    public void addCompetitionToEvent(String competitionId, String eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(()-> new NoSuchElementException("Could not find event with id"));
+
+        if (event.getCompetition() != null) {
+            throw new IllegalStateException("Competition with id" + competitionId + " is already associated with an event with id" + event.getCompetition().getId());
+        }
+
+        Competition competition = competitionRepository.findById(competitionId).orElseThrow(()-> new NoSuchElementException("Could not find competition with id"));
+
+        event.setCompetition(competition);
+        eventRepository.save(event);
+    }
 
 
 
