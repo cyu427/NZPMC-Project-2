@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @CrossOrigin
 @RestController
 @RequestMapping("admin/competition")
@@ -29,4 +31,18 @@ public class AdminCompetitionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PutMapping("{competitionId}/{questionId}")
+    public ResponseEntity addQuestionToCompetition(@PathVariable String competitionId, @PathVariable String questionId) {
+        try {
+            competitionService.addQuestionToCompetition(competitionId, questionId);
+            return ResponseEntity.ok("Question with id " + questionId + " successfully added to competition with id " + competitionId);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+
 }
