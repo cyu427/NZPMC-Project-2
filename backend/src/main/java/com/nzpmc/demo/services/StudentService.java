@@ -7,7 +7,7 @@ import com.nzpmc.demo.mapper.student.StudentRegistrationMapper;
 import com.nzpmc.demo.models.Account;
 import com.nzpmc.demo.models.Role;
 import com.nzpmc.demo.repository.AccountRepository;
-import com.nzpmc.demo.utils.AccountProjection;
+import com.nzpmc.demo.projection.AccountProjection;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

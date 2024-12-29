@@ -1,8 +1,7 @@
 package com.nzpmc.demo.repository;
 
-import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
-import com.nzpmc.demo.utils.ViewAllQuestionProjection;
+import com.nzpmc.demo.projection.ViewAllQuestionProjection;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

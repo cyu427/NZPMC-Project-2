@@ -2,15 +2,18 @@ package com.nzpmc.demo.services;
 
 import com.nzpmc.demo.dto.competition.CreateCompetitionDTO;
 import com.nzpmc.demo.dto.competition.EditCompetitionDTO;
+import com.nzpmc.demo.dto.competition.ViewCompetitionDTO;
 import com.nzpmc.demo.dto.event.EventDetailDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
 import com.nzpmc.demo.mapper.competition.CreateCompetitionMapper;
 import com.nzpmc.demo.mapper.competition.EditCompetitionMapper;
+import com.nzpmc.demo.mapper.competition.ViewCompetitionMapper;
 import com.nzpmc.demo.mapper.event.EventDetailMapper;
 import com.nzpmc.demo.mapper.question.QuestionMapper;
 import com.nzpmc.demo.models.Competition;
 import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
+import com.nzpmc.demo.projection.ViewAllCompetitionProjection;
 import com.nzpmc.demo.repository.CompetitionRepository;
 import com.nzpmc.demo.repository.QuestionRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -51,6 +56,17 @@ public class CompetitionService {
         competitionRepository.save(competition);
         return competition;
     }
+
+    public ViewCompetitionDTO getCompetition(String competitionId) {
+        Competition competition = competitionRepository.findById(competitionId).orElseThrow(()-> new NoSuchElementException("Could not find competition with id"));
+        return new ViewCompetitionMapper().convertToDTO(competition);
+    }
+
+    public List<ViewAllCompetitionProjection> getAllCompetitions() {
+        return competitionRepository.findAllBy();
+    }
+
+
 
 
     public Competition editCompetition(String id, EditCompetitionDTO editCompetitionDTO) {

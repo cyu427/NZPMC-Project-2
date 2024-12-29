@@ -4,6 +4,8 @@ import com.nzpmc.demo.dto.competition.CreateCompetitionDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
 import com.nzpmc.demo.models.Competition;
 import com.nzpmc.demo.models.Question;
+import com.nzpmc.demo.projection.ViewAllCompetitionProjection;
+import com.nzpmc.demo.projection.ViewAllQuestionProjection;
 import com.nzpmc.demo.services.CompetitionService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @CrossOrigin
@@ -43,6 +46,18 @@ public class AdminCompetitionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity getAllCompetitions() {
+        try {
+            List<ViewAllCompetitionProjection> allCompetitions = competitionService.getAllCompetitions();
+            return ResponseEntity.ok(allCompetitions);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
 
 
 }
