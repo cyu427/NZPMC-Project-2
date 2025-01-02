@@ -1,9 +1,7 @@
 package com.nzpmc.demo.controllers.admin;
 
-import com.nzpmc.demo.dto.event.EventDetailDTO;
-import com.nzpmc.demo.dto.student.StudentProfileDTO;
 import com.nzpmc.demo.services.StudentService;
-import com.nzpmc.demo.utils.AccountProjection;
+import com.nzpmc.demo.projection.AccountProjection;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.nzpmc.demo.utils;
+package com.nzpmc.demo.projection;
 
 public interface ViewAllQuestionProjection {
     String getId();

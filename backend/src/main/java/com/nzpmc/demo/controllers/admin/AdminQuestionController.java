@@ -1,14 +1,9 @@
 package com.nzpmc.demo.controllers.admin;
 
-import com.nzpmc.demo.dto.event.EventDetailDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
-import com.nzpmc.demo.dto.student.StudentProfileDTO;
-import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
-import com.nzpmc.demo.services.EventService;
 import com.nzpmc.demo.services.QuestionService;
-import com.nzpmc.demo.utils.AccountProjection;
-import com.nzpmc.demo.utils.ViewAllQuestionProjection;
+import com.nzpmc.demo.projection.ViewAllQuestionProjection;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
