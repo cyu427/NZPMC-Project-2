@@ -13,10 +13,11 @@ public class ViewCompetitionMapper {
         viewCompetitionDTO.setId(competition.getId());
         viewCompetitionDTO.setTitle(competition.getTitle());
 
-        QuestionHelperToQuestion questionHelper = new QuestionHelperToQuestion();
-        List<QuestionHelperDTO> questions = questionHelper.convertToQuestionHelper(competition.getQuestions());
-
-        viewCompetitionDTO.setQuestion(questions);
+        if (competition.getQuestions() != null) {
+            QuestionHelperToQuestion questionHelper = new QuestionHelperToQuestion();
+            List<QuestionHelperDTO> questions = questionHelper.convertToQuestionHelper(competition.getQuestions());
+            viewCompetitionDTO.setQuestion(questions);
+        }
 
         return viewCompetitionDTO;
     }
