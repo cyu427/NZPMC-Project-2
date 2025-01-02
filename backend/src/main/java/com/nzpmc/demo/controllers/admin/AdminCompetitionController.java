@@ -26,7 +26,7 @@ public class AdminCompetitionController {
     private final CompetitionService competitionService;
 
     @PostMapping
-    public ResponseEntity createQuestion(@Valid @RequestBody CreateCompetitionDTO createCompetitionDTO) {
+    public ResponseEntity createCompetition(@Valid @RequestBody CreateCompetitionDTO createCompetitionDTO) {
         try {
             Competition createdCompetition = competitionService.createCompetition(createCompetitionDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCompetition);

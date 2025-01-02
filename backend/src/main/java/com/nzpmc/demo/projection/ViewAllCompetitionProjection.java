@@ -7,5 +7,4 @@ import java.util.List;
 public interface ViewAllCompetitionProjection {
     String getId();
     String getTitle();
-    List<Question> getQuestions();
 }
