@@ -36,7 +36,7 @@ public class StudentService {
 
     public void createStudent(StudentRegistrationDTO studentRegistrationDTO) {
         // Check if a student with the same email already exists
-        String email = studentRegistrationDTO.getStudentProfile().getEmail();
+        String email = studentRegistrationDTO.getEmail();
         accountRepository.findByUsername(email).ifPresent(existingStudent -> {
             throw new IllegalArgumentException("A student with this email already exists.");
         });

@@ -109,4 +109,9 @@ public class EventService {
 
     }
 
+    public EventDetailDTO getEvent(String eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(()-> new NoSuchElementException("Could not find event with id"));
+        return new EventDetailMapper().convertToDTO(event);
+    }
+
 }
