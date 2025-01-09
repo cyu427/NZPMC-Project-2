@@ -24,6 +24,7 @@ public class StudentRegistrationMapper {
         StudentProfileDTO studentProfileDTO = studentRegistrationDTO.getStudentProfile();
         StudentProfileMapper studentProfileMapper = new StudentProfileMapper();
         account = studentProfileMapper.convertToModel(account, studentProfileDTO);
+        account.setUsername(studentRegistrationDTO.getEmail());
         account.setPassword(studentRegistrationDTO.getPassword());
         return account;
     }
