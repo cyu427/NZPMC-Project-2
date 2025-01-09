@@ -62,4 +62,14 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("{eventId}")
+    public ResponseEntity getEvent(@PathVariable String eventId) {
+        try {
+            EventDetailDTO event = eventService.getEvent(eventId);
+            return ResponseEntity.ok(event);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }
