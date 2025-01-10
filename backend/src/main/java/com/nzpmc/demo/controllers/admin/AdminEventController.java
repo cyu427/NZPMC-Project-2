@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("admin/event")
 @AllArgsConstructor
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 public class AdminEventController {
     private final EventService eventService;
 
