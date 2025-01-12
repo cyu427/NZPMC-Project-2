@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.NoSuchElementException;
 public class EventController {
     private final EventService eventService;
 
+    @PreAuthorize("hasAnyAuthority('STUDENT')")
     @PutMapping("{studentId}/join/{eventId}")
     public ResponseEntity joinEvent(@PathVariable String eventId, @PathVariable String studentId) {
         try {
@@ -43,6 +45,7 @@ public class EventController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'ADMIN')")
     @GetMapping("{studentId}/joined")
     public ResponseEntity getAllEventStudentJoined(@PathVariable String studentId) {
         try {
@@ -53,6 +56,7 @@ public class EventController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'ADMIN')")
     @GetMapping("{studentId}/not-joined")
     public ResponseEntity getAllEventStudentNotJoined(@PathVariable String studentId) {
         try {
