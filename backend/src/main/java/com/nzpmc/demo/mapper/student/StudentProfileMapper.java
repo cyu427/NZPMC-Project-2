@@ -45,6 +45,7 @@ public class StudentProfileMapper {
         StudentProfileDTO studentProfileDTO = new StudentProfileDTO();
         Student studentDetail = account.getStudent();
 
+        studentProfileDTO.setEmail(account.getUsername());
         studentProfileDTO.setFirstName(account.getStudent().getFirstName());
         studentProfileDTO.setLastName(studentDetail.getLastName());
         studentProfileDTO.setIsHomeSchooled(studentDetail.isHomeSchooled());

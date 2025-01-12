@@ -8,6 +8,10 @@ import jakarta.validation.constraints.NotNull;
 
 @Data
 public class StudentProfileDTO {
+    @NotNull(message = "Email is required")
+    @Email(message = "Email must be a valid email address")
+    private String email;
+
     @NotNull(message = "First name is required")
     private String firstName;
 
