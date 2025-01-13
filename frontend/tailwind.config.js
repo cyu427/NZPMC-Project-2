@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         'dark-blue': '#28242C',
+        'logo-blue': '#2074d4',
       }
     },
   },
