@@ -1,6 +1,7 @@
 import EventCardModes from "../../components/eventListOverview/eventCard/utils/EventCardModes";
 import EventOverviewType from "../../components/eventListOverview/eventCard/utils/EventOverviewType";
 import EventSection from "../../components/eventListOverview/EventSection";
+import Footer from "../../components/footer/Footer";
 import Hero from "../../components/hero/Hero";
 import Navigation from "../../components/navigation/Navigation";
 
@@ -75,11 +76,10 @@ const events: EventOverviewType[] = [
 const LandingPage: React.FC = () => {
     return (
         <div className="w-[1200px] h-screen">
-            <div className="top-0">
-                <Navigation />
-            </div>
+            <div className="top-0"> <Navigation /> </div>
             <Hero />
             <EventSection title="Upcoming Events" events={events} mode={EventCardModes.NOT_LOGGED_IN} />
+            <Footer />
         </div>
     );
 };
