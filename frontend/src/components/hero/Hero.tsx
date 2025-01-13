@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
     })
 
     return (
-        <div className="w-[1200px] h-[400px]  bg-dark-blue text-white">
+        <div className="w-[1200px] h-[400px] bg-dark-blue text-white">
             <div className="flex flex-col justify-center items-center h-full">
                 <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 600 }}>
                     Welcome to <HighlightedText>NZPMC</HighlightedText>
