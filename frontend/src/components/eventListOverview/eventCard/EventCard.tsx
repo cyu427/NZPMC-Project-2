@@ -11,20 +11,21 @@ interface EventCardProps {
     location: string;
     cost: string;
     mode: EventCardModes;
+    id: string;
     // primaryButtonLabel: string,
     // secondaryButtonLabel: string,
     // onClick: (eventId?: string) => void;
     // onClickMoreInfo: () => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ name, dateTime, location, cost, mode }: EventCardProps) => {
+const EventCard: React.FC<EventCardProps> = ({ name, dateTime, location, cost, mode, id }: EventCardProps) => {
 
-    const buttonGroup = getButtonGroup(mode);
+    const buttonGroup = getButtonGroup(mode, id);
 
     return (
         <Card sx={{ width: 240, height: 290, border: '1px solid black'}}>
             <CardContent>
-                <Typography gutterBottom variant="h6" component="div" align="center" sx={{ height: '50px', mb: 2 }}>
+                <Typography gutterBottom variant="h6" component="div" className="h-12 mb-2 flex justify-center items-center">
                     {name}
                 </Typography>
 

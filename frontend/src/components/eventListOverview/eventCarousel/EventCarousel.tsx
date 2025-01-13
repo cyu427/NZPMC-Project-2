@@ -57,6 +57,7 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events, mode }) => {
                             location={event.location}
                             cost={event.cost}
                             mode={mode}
+                            id={event.id}
                         />
                     ))}
                 </Box>
