@@ -47,20 +47,21 @@ const EventCarousel: React.FC<EventCarouselProps> = ({ events, mode }) => {
                 style: { top: '50%', transform: 'translateY(-50%)' },
             }}
         >
-        {eventChunks.map((chunk, index) => (
-            <Box key={index} sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-                {chunk.map((event) => (
-                    <EventCard
-                        key={event.id}
-                        name={event.name}
-                        dateTime={event.dateTime}
-                        location={event.location}
-                        cost={event.cost}
-                        mode={mode}
-                    />
-                ))}
-            </Box>
-        ))}
+            {eventChunks.map((chunk, index) => (
+                <Box key={index} sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+                    {chunk.map((event) => (
+                        <EventCard
+                            key={event.id}
+                            name={event.name}
+                            dateTime={event.dateTime}
+                            location={event.location}
+                            cost={event.cost}
+                            mode={mode}
+                            id={event.id}
+                        />
+                    ))}
+                </Box>
+            ))}
         </Carousel>
     );
 };
