@@ -2,16 +2,37 @@ import { SignInFormData, signInSchema } from "../../../schema/signin/signinSchem
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from "@mui/material";
+import { useSignIn } from "../../../services/auth/useSignIn";
+import useAuth from "../../../states/auth/useAuth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const SignInDialogContent: React.FC = () => {
+    const { role } = useAuth();
+    const { mutate } = useSignIn();
+    const navigate = useNavigate();
 
     const { control, handleSubmit, formState: {errors} } = useForm<SignInFormData>({
         resolver: zodResolver(signInSchema),
     });
 
+    const onLoginSubmit = (credentials: SignInFormData) => {
+        mutate(credentials);
+    };
+
+    useEffect(() => {
+        if (role) {
+          if (role === 'ADMIN') {
+            navigate('/admin'); // Navigate only when admin is logged in
+          } else {
+            navigate('/signed-in'); // Navigate only when userId is
+          }
+        }
+      }, [role, navigate]); // Run when userId changes
+
     return (
         <>
-            <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <form onSubmit={handleSubmit(onLoginSubmit)}>
                 <Controller
                     name="email"
                     control={control}
