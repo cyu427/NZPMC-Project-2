@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LandingPage from './pages/LandingPage/LandingPage';
+import AuthProvider from './states/auth/AuthProvider';
 
 function App() {
     const [queryClient] = useState(() => new QueryClient());
@@ -13,7 +14,9 @@ function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <AuthProvider>
+                <RouterProvider router={router} />
+            </AuthProvider>
         </QueryClientProvider>
       )
 }
