@@ -11,7 +11,7 @@ interface EventSectionProps {
 
 const EventSection: React.FC<EventSectionProps> = ({ title, events, mode }) => {
     return (
-        <div>
+        <div className="mb-8">
             <div>
                 <Typography variant="h5" component="h2" sx={{ fontWeight: 'bold', color: 'text.primary', my: 2 }}>
                     {title}

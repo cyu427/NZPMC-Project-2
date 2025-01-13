@@ -1,8 +1,7 @@
-import { Button, Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import DateTimeSection from "./fields/DateTimeSection";
 import LocationSection from "./fields/LocationSection";
 import CostSection from "./fields/CostSection";
-import EventButtonGroup from "./button/EventButtonGroup";
 import EventCardModes from "./utils/EventCardModes";
 import getButtonGroup from "./button/GetButtonGroup";
 
