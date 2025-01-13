@@ -5,7 +5,7 @@ const Navigation: React.FC = () => {
     const [loggedin, setLoggedin] = useState(false);
 
     const notLoggedInButtons = (
-        <div className="flex gap-5">
+        <div className="flex gap-5 mr-4">
             <Button variant="outlined" size="medium">
                 Register
             </Button>
@@ -25,8 +25,8 @@ const Navigation: React.FC = () => {
     )
 
     return (
-        <div className="flex w-[1200px] justify-between items-center">
-            <Typography variant="h6" component="div" sx={{ color: 'primary.main' }}>
+        <div className="flex w-[1200px] pb-[20px] justify-between items-center">
+            <Typography variant="h6" sx={{ color: 'primary.main', marginLeft: '10px' }}>
                 NZPMC
             </Typography>
 
