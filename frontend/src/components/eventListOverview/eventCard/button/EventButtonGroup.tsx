@@ -1,12 +1,16 @@
-import { Button, Dialog } from "@mui/material";
-import { useState } from "react";
+import { Alert, Button, Dialog, Snackbar } from "@mui/material";
+import { useEffect, useState } from "react";
 import SignInDialog from "../../../auth/signin/SignInDialog";
 import EventCardModes from "../utils/EventCardModes";
 import EventDetailsDialog from "../../../eventDetail/EventDetailsDialog";
+import { useJoinEvent } from "../../../../services/events/useJoinEvent";
+import useAuth from "../../../../states/auth/useAuth";
+import useJoinEventRerender from "../../../../states/joinEvent/useJoinEventRerender";
+import { set } from "zod";
 
 interface EventButtonGroupProps {
-    leftLabel: string;
-    rightLabel: string;
+    leftLabel?: string;
+    rightLabel?: string;
     mode: EventCardModes;
     id: string;
     //onLeftClick: () => void;
@@ -22,30 +26,54 @@ const EventButtonGroup: React.FC<EventButtonGroupProps> = ({ leftLabel, rightLab
     const handleEventDialog = () => {setOpenEventDialog(true);}
     const handleCloseEventDialog = () => {setOpenEventDialog(false);}
 
+    const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+    const { setRerenderState, rerenderState } = useJoinEventRerender();
+    const { userId } = useAuth();
+    const { mutate: joinEvent, isPending: isPendingJoin, isError: isJoinError, isSuccess: isJoinSuccess } = useJoinEvent();
+    const handleJoinEvent = () => {
+        joinEvent({ eventId: id, userId: userId! });
+    };
+
+    useEffect(() => {
+        if (isJoinSuccess) {
+            setOpenSuccessSnackbar(true);
+            setRerenderState(Math.random());
+        }
+    }, [isJoinSuccess, setRerenderState]);
+    
+
+    let onLeftClick;
     let onRightClick;
+
     if (mode === EventCardModes.NOT_LOGGED_IN) {
+        onLeftClick = handleEventDialog;
         onRightClick = handleSignIn;
-    } else {
+    } else if (mode === EventCardModes.USER_NOT_JOINED) {
+        onLeftClick = handleEventDialog;
+        onRightClick = handleJoinEvent;
+    } else if (mode === EventCardModes.ADMIN) {
+        onLeftClick = handleEventDialog;
         onRightClick = () => {};
     }
 
-    let onLeftClick;
-    if (mode !== EventCardModes.ADMIN) {
-        onLeftClick = handleEventDialog;
-    } else {
-        onLeftClick = () => {};
-    }
-
     return (
+        
+
         <>
-            <div className="flex gap-2 ">
-                <Button variant="outlined" onClick={onLeftClick} fullWidth sx={{ fontSize: "10px", padding: "2px 2px", height: "40px"}}>
-                    {leftLabel}
+            {mode !== EventCardModes.USER_JOINED ? (
+                <div className="flex gap-2">
+                    <Button variant="outlined" onClick={onLeftClick} fullWidth sx={{ fontSize: "10px", padding: "2px 2px", height: "40px" }}>
+                        {leftLabel}
+                    </Button>
+                    <Button variant="contained" onClick={onRightClick} fullWidth sx={{ fontSize: "10px", padding: "4px 2px", height: "40px" }}>
+                        {rightLabel}
+                    </Button>
+                </div>
+            ) : (
+                <Button variant="contained" onClick={handleEventDialog} fullWidth sx={{ fontSize: "10px", padding: "4px 2px", height: "40px" }}>
+                    View
                 </Button>
-                <Button variant="contained" onClick={onRightClick} fullWidth sx={{ fontSize: "10px", padding: "4px 2px", height: "40px" }}>
-                    {rightLabel}
-                </Button>
-            </div>
+            )}
 
             <Dialog open={openSignInDialog} onClose={handleCloseSignInDialog} fullWidth maxWidth="sm">
                 <SignInDialog onClose={handleCloseSignInDialog} />
@@ -54,6 +82,24 @@ const EventButtonGroup: React.FC<EventButtonGroupProps> = ({ leftLabel, rightLab
             <Dialog open={openEventDialog} onClose={handleCloseEventDialog} fullWidth maxWidth="sm">
                 <EventDetailsDialog onClose={handleCloseEventDialog} eventId={id} />
             </Dialog>
+
+            <Snackbar
+                open={openSuccessSnackbar}
+                autoHideDuration={3000} // Snackbar will auto-close after 3 seconds
+                onClose={() => setOpenSuccessSnackbar(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                sx={{
+                    width: '400px', // Making the Snackbar wider
+                    fontSize: '18px', // Increasing the font size for better visibility
+                    padding: '16px', // Adding extra padding
+                }}
+
+            >
+                <Alert severity="success" sx={{ width: '100%', fontSize: '18px', padding: '16px' }}>
+                    Successfully joined the event!
+                </Alert>
+            </Snackbar>
+
         </>
     );
 };
