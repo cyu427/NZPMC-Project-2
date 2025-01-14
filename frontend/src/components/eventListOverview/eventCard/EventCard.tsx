@@ -12,10 +12,6 @@ interface EventCardProps {
     cost: string;
     mode: EventCardModes;
     id: string;
-    // primaryButtonLabel: string,
-    // secondaryButtonLabel: string,
-    // onClick: (eventId?: string) => void;
-    // onClickMoreInfo: () => void;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ name, dateTime, location, cost, mode, id }: EventCardProps) => {
