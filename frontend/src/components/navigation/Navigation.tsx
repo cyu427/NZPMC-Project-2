@@ -3,9 +3,13 @@ import React, { useState } from "react";
 import SignInDialog from "../auth/signin/SignInDialog";
 import RegisterProvider from "../../states/register/RegisterProvider";
 import RegisterDialog from "../auth/register/dialog/RegisterDialog";
+import useAuth from "../../states/auth/useAuth";
+import { useNavigate } from "react-router";
 
 const Navigation: React.FC = () => {
-    const [loggedin, setLoggedin] = useState(false);
+    const { isLoggedIn, logout } = useAuth();
+    const navigate = useNavigate();
+
     const [openSignInDialog, setOpenSignInDialog] = useState(false);
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
     
@@ -14,6 +18,12 @@ const Navigation: React.FC = () => {
 
     const handleRegister = () => {setOpenRegisterDialog(true);}
     const handleCloseRegisterDialog = () => {setOpenRegisterDialog(false);}
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    }
+
 
     const notLoggedInButtons = (
         <div className="flex gap-5 mr-4">
@@ -29,7 +39,7 @@ const Navigation: React.FC = () => {
 
     const loggedInButtons = (
         <div>
-            <Button variant="contained" size="medium">
+            <Button variant="contained" size="medium" onClick={handleLogout}>
                 Sign out
             </Button>
         </div>
@@ -43,7 +53,7 @@ const Navigation: React.FC = () => {
                 </h5>
 
                 <div>
-                    { loggedin ? loggedInButtons : notLoggedInButtons }
+                    { isLoggedIn ? loggedInButtons : notLoggedInButtons }
                 </div>
             </div>
 
