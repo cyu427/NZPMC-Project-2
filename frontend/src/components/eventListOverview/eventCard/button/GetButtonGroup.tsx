@@ -12,11 +12,8 @@ const getButtonGroup = (mode: EventCardModes, id: string) => {
         case EventCardModes.USER_NOT_JOINED:
             return <EventButtonGroup leftLabel="View" rightLabel="Join" mode={EventCardModes.USER_NOT_JOINED} id={id} />;
         case EventCardModes.USER_JOINED:
-            return (
-                <Button variant="contained" fullWidth sx={{ fontSize: "10px", padding: "4px 2px", height: "40px" }}>
-                    View
-                </Button>
-            );
+            return <EventButtonGroup mode={EventCardModes.USER_JOINED} id={id} />;
+        
         default:
             return (
                 <Button variant="contained" fullWidth sx={{ fontSize: "10px", padding: "4px 2px", height: "40px" }}>

@@ -20,13 +20,21 @@ const SignInDialogContent: React.FC = () => {
         mutate(credentials);
     };
 
+    // useEffect(() => {
+    //     if (role) {
+    //       if (role === 'ADMIN') {
+    //         navigate('/admin'); // Navigate only when admin is logged in
+    //       } else {
+    //         navigate('/signed-in'); // Navigate only when userId is
+    //       }
+    //     }
+    //   }, [role, navigate]); // Run when userId changes
+
     useEffect(() => {
         if (role) {
-          if (role === 'ADMIN') {
-            navigate('/admin'); // Navigate only when admin is logged in
-          } else {
+          
             navigate('/signed-in'); // Navigate only when userId is
-          }
+
         }
       }, [role, navigate]); // Run when userId changes
 
