@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import AuthProvider from './states/auth/AuthProvider';
 import LandingPageSignedIn from './pages/LandingPageSignedIn/LandingPageSignin';
 import JoinEventRerenderProvider from './states/joinEvent/JoinEventRerenderProvider';
+import AdminEventPage from './pages/Admin/AdminEventPage';
 
 function App() {
     const [queryClient] = useState(() => new QueryClient());
@@ -13,6 +14,7 @@ function App() {
     const router = createBrowserRouter([
         { path: "/", element: <LandingPage /> },
         { path: "/signed-in", element: <JoinEventRerenderProvider> <LandingPageSignedIn /> </JoinEventRerenderProvider>},
+        { path: "/admin", element: <AdminEventPage /> }
     ])
 
     return (
