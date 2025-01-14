@@ -6,7 +6,9 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import AuthProvider from './states/auth/AuthProvider';
 import LandingPageSignedIn from './pages/LandingPageSignedIn/LandingPageSignin';
 import JoinEventRerenderProvider from './states/joinEvent/JoinEventRerenderProvider';
-import AdminEventPage from './pages/Admin/AdminEventPage';
+import AdminLayout from './pages/Admin/AdminLayout';
+import AdminEventPage from './pages/Admin/ChildPages/AdminEventsPage';
+import AdminQuestionPage from './pages/Admin/ChildPages/AdminQuestionPage';
 
 function App() {
     const [queryClient] = useState(() => new QueryClient());
@@ -14,7 +16,15 @@ function App() {
     const router = createBrowserRouter([
         { path: "/", element: <LandingPage /> },
         { path: "/signed-in", element: <JoinEventRerenderProvider> <LandingPageSignedIn /> </JoinEventRerenderProvider>},
-        { path: "/admin", element: <AdminEventPage /> }
+        { 
+            path: "/admin", 
+            element: <AdminLayout /> ,
+            children: [
+                { index: true, element: <div>Welcome to Admin Panel</div> },
+                { path: "event", element: <AdminEventPage /> },
+                { path: "question", element: <AdminQuestionPage /> }
+            ],
+        }
     ])
 
     return (

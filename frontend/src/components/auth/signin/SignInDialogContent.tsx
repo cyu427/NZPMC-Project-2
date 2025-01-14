@@ -23,7 +23,7 @@ const SignInDialogContent: React.FC = () => {
     useEffect(() => {
         if (role) {
             if (role === 'ADMIN') {
-                navigate('/admin');
+                navigate('/admin/event');
             } else {
                 navigate('/signed-in');
             }
