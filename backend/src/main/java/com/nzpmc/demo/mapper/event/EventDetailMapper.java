@@ -23,7 +23,14 @@ public class EventDetailMapper {
         eventDetailDTO.setLocation(event.getLocation());
         eventDetailDTO.setCost(event.getCost());
         eventDetailDTO.setDescription(event.getDescription());
-        eventDetailDTO.setCompetition(event.getCompetition());
+
+        if (event.getCompetition() != null) {
+            String eventId = event.getCompetition().getId();
+            eventDetailDTO.setCompetitionId(eventId);
+        } else {
+            eventDetailDTO.setCompetitionId(null);
+        }
+
         return eventDetailDTO;
     }
 
