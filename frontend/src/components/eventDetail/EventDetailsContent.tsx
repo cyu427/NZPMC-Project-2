@@ -34,6 +34,22 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
     if ( role === Role.STUDENT) {
         isEventJoined = eventJoined.some(event => event.id === eventDetails.id);
     }
+
+    const eventDetailsContentButton = () => {
+        if (role===Role.STUDENT &&isEventJoined && eventDetails.competitionId) {
+            return (
+                <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!)}> Start Competition </Button>
+            );
+        } else if (role===Role.ADMIN && eventDetails.competitionId) {
+            return (
+                <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!)}> Mark Competition </Button>
+            );
+        } else {
+            return (<div></div>)
+        }
+    }
+
+    
     
     return (
         <div className="grid grid-cols-2 gap-6">
@@ -57,11 +73,12 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
                     <AttachMoneyIcon color="action" fontSize="large" />
                     <p className="text-base text-gray-700">{eventDetails.cost}</p>
                 </div>
-                { role===Role.STUDENT &&isEventJoined && eventDetails.competitionId && (
-                    <div className="flex items-center gap-2 mb-2 mt-10">
-                        <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!)}> Start Competition </Button>
-                    </div>
-                )}
+                {/* { role===Role.STUDENT &&isEventJoined && eventDetails.competitionId && ( */}
+                <div className="flex items-center gap-2 mb-2 mt-10">
+                    {/* <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!)}> Start Competition </Button> */}
+                    {eventDetailsContentButton()}
+                </div>
+                {/* )} */}
             </div>
         </div>
     );

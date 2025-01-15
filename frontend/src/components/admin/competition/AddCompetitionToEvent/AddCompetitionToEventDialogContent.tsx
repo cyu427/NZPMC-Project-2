@@ -16,6 +16,7 @@ const AddCompetitionToEventDialogContent: React.FC<AddCompetitionToEventDialogCo
     const { mutate: addCompetitionToEvent } = useAddCompetitionToEvent();
     const { mutate: removeCompetitionFromEvent } = useRemoveCompetitionFromEvent();
     const { data: allEvents, refetch: refetchAllEvents } = useGetAllEvents();
+    console.log("All events:", allEvents);
 
     const handleAdd = (eventId: string ) => {
         addCompetitionToEvent({competitionId, eventId}, {
@@ -50,7 +51,7 @@ const AddCompetitionToEventDialogContent: React.FC<AddCompetitionToEventDialogCo
             headerName: 'Add/Remove from Event',
             width: 270,
             renderCell: (params: GridRenderCellParams) => {
-                if (params.row.competition?.id === competitionId) {
+                if (params.row.competitionId === competitionId) {
                     return (
                         <Button
                             variant="contained"
@@ -60,7 +61,7 @@ const AddCompetitionToEventDialogContent: React.FC<AddCompetitionToEventDialogCo
                             Remove
                         </Button>
                     );
-                } else if (params.row.competition !== null) {
+                } else if (params.row.competitionId !== null) {
                     return (
                         <Button
                             variant="contained"
