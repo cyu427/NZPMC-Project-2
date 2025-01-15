@@ -1,16 +1,44 @@
-import { Button, Tab, Tabs, Typography } from "@mui/material";
+import { Button, Dialog, Tab, Tabs, Typography } from "@mui/material";
 import { useParams } from "react-router";
 import { useGetCompetition } from "../../../services/competition/useGetCompetition";
 import { useEffect, useRef, useState } from "react";
 import QuestionType from "../../../components/admin/questions/ViewQuestion/QuestionType";
 import QuestionCard from "../../../components/admin/competition/ViewCompetition/QuestionCard";
+import AddQuestionToCompetitionDialog from "../../../components/admin/competition/AddQuestionToCompetition/AddQuestionToCompetitionDialog";
 
 const AdminViewCompetitionPage: React.FC = () => {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState(0);
 
-    const { data: competitionData, error: isCompetitionError, isLoading: isGetCompetitionLoading } = useGetCompetition(id!);
+    const { data: competitionData, error: isCompetitionError, isLoading: isGetCompetitionLoading, refetch: refetchCompetition } = useGetCompetition(id!);
     const tabPanelRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    const [addQuestionToCompetitionDialogOpen, setAddQuestionToCompetitionDialogOpen] = useState(false);
+    const handleAddQuestionToCompetition = () => {setAddQuestionToCompetitionDialogOpen(true);}
+    const handleCloseAddQuestionToCompetitionDialog = () => {setAddQuestionToCompetitionDialogOpen(false);}
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY + 210; // Adjust offset for tab height or margin
+            let newActiveTab = activeTab;
+
+            tabPanelRefs.current.forEach((panel, index) => {
+                if (panel) {
+                    const { offsetTop, offsetHeight } = panel;
+                    if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                        newActiveTab = index;
+                    }
+                }
+            });
+
+            if (newActiveTab !== activeTab) {
+                setActiveTab(newActiveTab);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [activeTab]);
 
     if (isGetCompetitionLoading) {
         return <div>Loading...</div>;
@@ -33,32 +61,6 @@ const AdminViewCompetitionPage: React.FC = () => {
         }
     };
 
-    // useEffect(() => {
-    //     const observer = new IntersectionObserver(
-    //       (entries) => {
-    //         entries.forEach((entry) => {
-    //           if (entry.isIntersecting) {
-    //             const index = tabPanelRefs.current.findIndex(
-    //               (ref) => ref === entry.target
-    //             );
-    //             if (index !== -1) {
-    //               setActiveTab(index); // Update the active tab when scrolling
-    //             }
-    //           }
-    //         });
-    //       },
-    //       { threshold: 1 } // Adjust the threshold to your preference
-    //     );
-      
-    //     tabPanelRefs.current.forEach((ref) => {
-    //       if (ref) observer.observe(ref);
-    //     });
-      
-    //     return () => {
-    //       observer.disconnect();
-    //     };
-    // }, []);
-
     return (
         <>
             <div className="items-center my-4">
@@ -67,7 +69,7 @@ const AdminViewCompetitionPage: React.FC = () => {
                 </Typography>
             </div>
             <div className="justify-items-center mb-5">
-                <Button variant="contained" color="primary" fullWidth >
+                <Button variant="contained" color="primary" fullWidth onClick={handleAddQuestionToCompetition} >
                     Add Question
                 </Button>
             </div>
@@ -105,6 +107,10 @@ const AdminViewCompetitionPage: React.FC = () => {
                     Delete Competition
                 </Button>
             </div>
+
+            <Dialog open={addQuestionToCompetitionDialogOpen} onClose={handleCloseAddQuestionToCompetitionDialog} fullWidth maxWidth="md">
+                <AddQuestionToCompetitionDialog onClose={handleCloseAddQuestionToCompetitionDialog} refetchCompetition={refetchCompetition} competitionId={ id! } /> 
+            </Dialog>
         </>
     );
 };
