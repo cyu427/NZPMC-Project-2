@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import QuestionType from "../../../components/admin/questions/ViewQuestion/QuestionType";
 import QuestionCard from "../../../components/admin/competition/ViewCompetition/QuestionCard";
 import AddQuestionToCompetitionDialog from "../../../components/admin/competition/AddQuestionToCompetition/AddQuestionToCompetitionDialog";
+import AddCompetitionToEventDialog from "../../../components/admin/competition/AddCompetitionToEvent/AddCompetitionToEventDialog";
 
 const AdminViewCompetitionPage: React.FC = () => {
     const { id } = useParams();
@@ -16,6 +17,10 @@ const AdminViewCompetitionPage: React.FC = () => {
     const [addQuestionToCompetitionDialogOpen, setAddQuestionToCompetitionDialogOpen] = useState(false);
     const handleAddQuestionToCompetition = () => {setAddQuestionToCompetitionDialogOpen(true);}
     const handleCloseAddQuestionToCompetitionDialog = () => {setAddQuestionToCompetitionDialogOpen(false);}
+
+    const [addCompetitionToEventDialogOpen, setAddCompetitionToEventDialogOpen] = useState(false);
+    const handleAddCompetitionToEvent = () => {setAddCompetitionToEventDialogOpen(true);}
+    const handleCloseAddCompetitionToEventDialog = () => {setAddCompetitionToEventDialogOpen(false);}
 
     useEffect(() => {
         const handleScroll = () => {
@@ -69,6 +74,11 @@ const AdminViewCompetitionPage: React.FC = () => {
                 </Typography>
             </div>
             <div className="justify-items-center mb-5">
+                <Button variant="contained" color="success" fullWidth onClick={handleAddCompetitionToEvent} >
+                    Add/Remove Competition To Event
+                </Button>
+            </div>
+            <div className="justify-items-center mb-5">
                 <Button variant="contained" color="primary" fullWidth onClick={handleAddQuestionToCompetition} >
                     Add Question
                 </Button>
@@ -110,6 +120,10 @@ const AdminViewCompetitionPage: React.FC = () => {
 
             <Dialog open={addQuestionToCompetitionDialogOpen} onClose={handleCloseAddQuestionToCompetitionDialog} fullWidth maxWidth="md">
                 <AddQuestionToCompetitionDialog onClose={handleCloseAddQuestionToCompetitionDialog} refetchCompetition={refetchCompetition} competitionId={ id! } /> 
+            </Dialog>
+
+            <Dialog open={addCompetitionToEventDialogOpen} onClose={handleCloseAddCompetitionToEventDialog} fullWidth maxWidth="md">
+                <AddCompetitionToEventDialog onClose={handleCloseAddCompetitionToEventDialog} competitionId={ id! } /> 
             </Dialog>
         </>
     );
