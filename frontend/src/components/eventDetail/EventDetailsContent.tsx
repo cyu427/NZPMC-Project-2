@@ -7,6 +7,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { Button } from "@mui/material";
 import { useGetEventsStudentsJoined } from "../../services/events/useGetEventsStudentJoined";
 import useAuth from "../../states/auth/useAuth";
+import { useNavigate } from "react-router";
 
 interface EventDetailsContentProps {
     eventDetails: EventDetails;
@@ -16,6 +17,8 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
     const { userId } = useAuth();
     const { formattedDate, formattedTime } = timeFormatter({ dateTime: eventDetails.dateTime });
     const { data: eventJoined, isLoading: isEventJoinedLoading, isError: isEventJoinedError } = useGetEventsStudentsJoined(userId!);
+    const navigate = useNavigate();
+    const handleStartCompetition = (id: string) => {navigate(`/attempt/${id}`);}
 
     if (isEventJoinedLoading) {
         return <div>Loading...</div>;
@@ -26,6 +29,8 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
     }
 
     const isEventJoined = eventJoined.some(event => event.id === eventDetails.id);
+
+    
     
     return (
         <div className="grid grid-cols-2 gap-6">
@@ -51,7 +56,7 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
                 </div>
                 {isEventJoined && eventDetails.competitionId && (
                     <div className="flex items-center gap-2 mb-2 mt-10">
-                        <Button variant="contained" fullWidth> Start Competition </Button>
+                        <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!)}> Start Competition </Button>
                     </div>
                 )}
             </div>
