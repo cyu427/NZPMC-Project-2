@@ -1,6 +1,5 @@
 import { Button, DialogContent } from "@mui/material";
 import AdminDataTable from "../../utils/AdminDataTable";
-import { useGetQuestion } from "../../../../services/questions/useGetQuestion";
 import QuestionType, { Choice } from "./QuestionType";
 
 interface ViewQuestionDialogContentProps {

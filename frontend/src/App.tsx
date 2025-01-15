@@ -9,6 +9,8 @@ import JoinEventRerenderProvider from './states/joinEvent/JoinEventRerenderProvi
 import AdminLayout from './pages/Admin/AdminLayout';
 import AdminEventPage from './pages/Admin/ChildPages/AdminEventsPage';
 import AdminQuestionPage from './pages/Admin/ChildPages/AdminQuestionPage';
+import AdminCompetitionPage from './pages/Admin/ChildPages/AdminCompetitionPage';
+import AdminViewCompetitionPage from './pages/Admin/ChildPages/AdminViewCompetitionPage';
 
 function App() {
     const [queryClient] = useState(() => new QueryClient());
@@ -22,7 +24,9 @@ function App() {
             children: [
                 { index: true, element: <div>Welcome to Admin Panel</div> },
                 { path: "event", element: <AdminEventPage /> },
-                { path: "question", element: <AdminQuestionPage /> }
+                { path: "question", element: <AdminQuestionPage /> },
+                { path: "competition", element: <AdminCompetitionPage /> },
+                { path: "competition/:id", element: <AdminViewCompetitionPage /> }
             ],
         }
     ])

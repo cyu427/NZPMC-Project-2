@@ -2,7 +2,10 @@ package com.nzpmc.demo.services;
 
 import com.nzpmc.demo.dto.question.QuestionDTO;
 import com.nzpmc.demo.mapper.question.QuestionMapper;
+import com.nzpmc.demo.models.Competition;
+import com.nzpmc.demo.models.Event;
 import com.nzpmc.demo.models.Question;
+import com.nzpmc.demo.repository.CompetitionRepository;
 import com.nzpmc.demo.repository.QuestionRepository;
 import com.nzpmc.demo.projection.ViewAllQuestionProjection;
 import lombok.AllArgsConstructor;
