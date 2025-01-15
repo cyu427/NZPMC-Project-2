@@ -1,11 +1,12 @@
 import { Button, Dialog, Tab, Tabs, Typography } from "@mui/material";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGetCompetition } from "../../../services/competition/useGetCompetition";
 import { useEffect, useRef, useState } from "react";
 import QuestionType from "../../../components/admin/questions/ViewQuestion/QuestionType";
 import QuestionCard from "../../../components/admin/competition/ViewCompetition/QuestionCard";
 import AddQuestionToCompetitionDialog from "../../../components/admin/competition/AddQuestionToCompetition/AddQuestionToCompetitionDialog";
 import AddCompetitionToEventDialog from "../../../components/admin/competition/AddCompetitionToEvent/AddCompetitionToEventDialog";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const AdminViewCompetitionPage: React.FC = () => {
     const { id } = useParams();
@@ -13,6 +14,8 @@ const AdminViewCompetitionPage: React.FC = () => {
 
     const { data: competitionData, error: isCompetitionError, isLoading: isGetCompetitionLoading, refetch: refetchCompetition } = useGetCompetition(id!);
     const tabPanelRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const navigate = useNavigate();
+    const handleBack = () => {navigate('/admin/competition');}
 
     const [addQuestionToCompetitionDialogOpen, setAddQuestionToCompetitionDialogOpen] = useState(false);
     const handleAddQuestionToCompetition = () => {setAddQuestionToCompetitionDialogOpen(true);}
@@ -66,8 +69,13 @@ const AdminViewCompetitionPage: React.FC = () => {
         }
     };
 
+    
+
     return (
         <>
+            <div className="flex items-center pl-4" onClick={handleBack}>
+                <ArrowBackIcon sx={{ fontSize: 40, cursor: 'pointer' }} />
+            </div>
             <div className="items-center my-4">
                 <Typography variant="h4" sx={{ fontWeight: "bold" }}>
                     {competitionData.title}
