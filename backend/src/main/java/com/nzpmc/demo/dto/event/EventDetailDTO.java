@@ -1,5 +1,6 @@
 package com.nzpmc.demo.dto.event;
 
+import com.nzpmc.demo.models.Competition;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -25,4 +26,6 @@ public class EventDetailDTO {
 
     @NotNull(message = "Description is required")
     private String description;
+
+    private Competition competition;
 }

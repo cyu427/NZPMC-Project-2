@@ -72,6 +72,20 @@ public class AdminCompetitionController {
         }
     }
 
+    @DeleteMapping("removeCompetitionFromEvent/{competitionId}/{eventId}")
+    public ResponseEntity removeCompetitionFromEvent(@PathVariable String competitionId, @PathVariable String eventId) {
+        try {
+            competitionService.removeCompetitionFromEvent(competitionId, eventId);
+            return ResponseEntity.ok("Competition with id " + competitionId + " successfully removed from event with id " + eventId);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An unexpected error occurred.");
+        }
+    }
+
     @GetMapping("{id}")
     public ResponseEntity getCompetition(@PathVariable String id) {
         try {
@@ -79,6 +93,23 @@ public class AdminCompetitionController {
             return ResponseEntity.ok(competition);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Competition with id " + id + " not found.");
+        }
+    }
+
+    @DeleteMapping("removeQuestionFromCompetition/{competitionId}/{questionId}")
+    public ResponseEntity removeQuestionFromCompetition(@PathVariable String competitionId, @PathVariable String questionId) {
+        try {
+            competitionService.removeQuestionFromCompetition(competitionId, questionId);
+            return ResponseEntity.ok("Question removed successfully from competition.");
+        } catch (NoSuchElementException e) {
+            // Return a 404 Not Found if the competition or question is not found
+            return ResponseEntity.status(404).body("Competition or Question not found.");
+        } catch (IllegalArgumentException e) {
+            // Return a 400 Bad Request if the question is not associated with the competition
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            // Catch any other exceptions and return a generic error message
+            return ResponseEntity.status(500).body("An error occurred while removing the question.");
         }
     }
 
