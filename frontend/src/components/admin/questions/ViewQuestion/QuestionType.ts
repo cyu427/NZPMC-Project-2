@@ -1,5 +1,3 @@
-import { StringValidation } from "zod";
-
 export interface Choice {
     text: string;
     isCorrect: boolean;
