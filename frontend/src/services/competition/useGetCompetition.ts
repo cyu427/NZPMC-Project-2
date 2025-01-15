@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "../../states/auth/useAuth";
 
 const getCompetition = (id: string, token: string) =>
-    axios.get(`http://localhost:8080/admin/competition/${id}`, {
+    axios.get(`http://localhost:8080/competition/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
