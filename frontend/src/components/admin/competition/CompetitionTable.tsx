@@ -4,6 +4,7 @@ import AdminDataTable from "../utils/AdminDataTable";
 import { useState } from "react";
 import SearchBar from "../utils/SearchBar";
 import CompetitionOverviewType from "./CompetitionOverviewType";
+import { useNavigate } from "react-router";
 
 interface CompetitionTableProps {
     allCompetition: CompetitionOverviewType[];
@@ -21,7 +22,7 @@ const CompetitionTable: React.FC<CompetitionTableProps> = ({ allCompetition, ref
               <Button
                 variant="contained"
                 color="primary"
-                //onClick={() => handleViewQuestion(params.row.id)}
+                onClick={() => handleViewQuestion(params.row.id)}
               >
                 View
               </Button>
@@ -44,14 +45,10 @@ const CompetitionTable: React.FC<CompetitionTableProps> = ({ allCompetition, ref
         },
     ];
 
-    // const [questionId, setQuestionId] = useState<string>('');
-
-    // const [vieweQuestionDialogOpen, setViewQuestionDialogOpen] = useState(false);
-    // const handleViewQuestion = (id: string) => {
-    //     setQuestionId(id);
-    //     setViewQuestionDialogOpen(true);
-    // }
-    // const handleCloseViewQuestionDialog = () => {setViewQuestionDialogOpen(false);}
+    const navigate = useNavigate();
+    const handleViewQuestion = (id: string) => {
+        navigate(`/admin/competition/${id}`);
+    }
     
 
     const [searchTerm, setSearchTerm] = useState<string>("");
