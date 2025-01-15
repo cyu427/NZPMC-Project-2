@@ -5,6 +5,7 @@ import com.nzpmc.demo.dto.competition.ViewCompetitionDTO;
 import com.nzpmc.demo.models.Competition;
 import com.nzpmc.demo.utils.QuestionHelperToQuestion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewCompetitionMapper {
@@ -17,6 +18,8 @@ public class ViewCompetitionMapper {
             QuestionHelperToQuestion questionHelper = new QuestionHelperToQuestion();
             List<QuestionHelperDTO> questions = questionHelper.convertToQuestionHelper(competition.getQuestions());
             viewCompetitionDTO.setQuestion(questions);
+        } else {
+            viewCompetitionDTO.setQuestion(new ArrayList<>());
         }
 
         return viewCompetitionDTO;
