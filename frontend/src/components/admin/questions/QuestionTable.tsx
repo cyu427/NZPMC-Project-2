@@ -6,7 +6,11 @@ import { useState } from "react";
 import QuestionOverviewType from "./QuestionOverviewType";
 import SearchBar from "../utils/SearchBar";
 
-const QuestionTable: React.FC = () => {
+interface QuestionTableProps {
+    allQuestions: QuestionOverviewType[];
+}
+
+const QuestionTable: React.FC<QuestionTableProps> = ({ allQuestions }) => {
     const columns = [
         { field: 'title', headerName: 'Questions', width: 950 },
         {
@@ -41,7 +45,6 @@ const QuestionTable: React.FC = () => {
 
     ];
 
-    const { data: allQuestions } = useGetAllQuestions();
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
