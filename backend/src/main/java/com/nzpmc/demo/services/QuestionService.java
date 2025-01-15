@@ -39,5 +39,9 @@ public class QuestionService {
         return new QuestionMapper().convertToDTO(question);
     }
 
+    public void deleteQuestion(String id) {
+        questionRepository.deleteById(id);
+    }
+
 
 }
