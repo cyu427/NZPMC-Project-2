@@ -5,8 +5,9 @@ export interface Choice {
 }
 
 interface QuestionType {
-    question: string;
+    title: string;
     options: Choice[];
+    id?: string;
 }
 
 export default QuestionType;
