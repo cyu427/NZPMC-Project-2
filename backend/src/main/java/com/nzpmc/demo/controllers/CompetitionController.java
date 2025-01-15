@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("competition")
 @AllArgsConstructor
-@PreAuthorize("hasAnyAuthority('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT')")
 public class CompetitionController {
     private final CompetitionService competitionService;
 
