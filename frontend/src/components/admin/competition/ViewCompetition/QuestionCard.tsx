@@ -1,5 +1,9 @@
 import { Card, CardContent, FormControl, FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import QuestionType, { Choice } from "../../questions/ViewQuestion/QuestionType";
+import useAuth from "../../../../states/auth/useAuth";
+import Role from "../../../../utils/Role";
+import { ChangeEvent } from "react";
+import { useAttempt } from "../../../../states/attempt/useAttempt";
 
 interface QuestionCardProps {
     questionId: string;
@@ -8,18 +12,33 @@ interface QuestionCardProps {
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ questionId, question, index }) => {
+    const { role } = useAuth();
+    const { answers, setAnswer } = useAttempt();
+    
+    const selectedAnswer = answers[questionId];
+    const handleOptionChange = (event: ChangeEvent<HTMLInputElement>, newValue: string) => {
+        if (role !== Role.ADMIN) {
+            const option = question.options.find(opt => opt.text === newValue);
+            
+            if (option) {
+                setAnswer(questionId, option);
+            }
+        }
+    };
+
+
 
     const correctOption = question.options.find(option => option.isCorrect);
 
     const formControlRadio = (option: Choice) => (
         <Radio
-            disabled={true}
-            sx={{ '&.Mui-checked .MuiSvgIcon-root': { color: option.isCorrect ? 'green' : 'inherit' } }}
+            disabled={role === Role.ADMIN}
+            sx={{ '&.Mui-checked .MuiSvgIcon-root': { color: role === Role.ADMIN && option.isCorrect ? 'green' : 'inherit' } }}
         />
     );
 
     const formControlLabel = ( option: Choice ) => (
-        <Typography sx={{ color: option.isCorrect ? 'green': 'inherit', fontWeight: 'bold' }}>
+        <Typography sx={{ color: role === Role.ADMIN && option.isCorrect ? 'green': 'inherit', fontWeight: role === Role.ADMIN && option.isCorrect ? 'bold' : 'regular' }}>
             {option.text}
         </Typography>
     );
@@ -39,7 +58,8 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ questionId, question, index
                     <RadioGroup
                         aria-labelledby={`question-options-group-${index}`}
                         name={`question-options-group-${index}`}
-                        value={ correctOption?.text}
+                        value={ role === Role.ADMIN ? correctOption?.text: selectedAnswer?.text || '' }
+                        onChange={handleOptionChange}
                         sx={{ pr: 70 }}
                     >
                         {question.options.map((option, idx) => (
