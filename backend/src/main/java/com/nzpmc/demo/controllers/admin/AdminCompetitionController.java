@@ -1,6 +1,7 @@
 package com.nzpmc.demo.controllers.admin;
 
 import com.nzpmc.demo.dto.competition.CreateCompetitionDTO;
+import com.nzpmc.demo.dto.competition.ViewCompetitionDTO;
 import com.nzpmc.demo.dto.question.QuestionDTO;
 import com.nzpmc.demo.models.Competition;
 import com.nzpmc.demo.models.Question;
@@ -68,6 +69,16 @@ public class AdminCompetitionController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity getCompetition(@PathVariable String id) {
+        try {
+            ViewCompetitionDTO competition = competitionService.getCompetition(id);
+            return ResponseEntity.ok(competition);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Competition with id " + id + " not found.");
         }
     }
 
