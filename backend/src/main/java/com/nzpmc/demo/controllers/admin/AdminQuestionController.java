@@ -62,4 +62,10 @@ public class AdminQuestionController {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteQuestion(@PathVariable String id) {
+        questionService.deleteQuestion(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
