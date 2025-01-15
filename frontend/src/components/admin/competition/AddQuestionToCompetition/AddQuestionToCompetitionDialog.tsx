@@ -12,7 +12,7 @@ const AddQuestionToCompetitionDialog: React.FC<AddQuestionToCompetitionDialogPro
     return (
         <Dialog open={true} onClose={onClose} maxWidth="md" fullWidth>
             <DialogTitle>
-                Create Competition
+                Add/Remove Question to Competition
                 <IconButton onClick={onClose} aria-label="close" sx={{ position: 'absolute', right: 8, top: 8, color: (theme) => theme.palette.grey[500]}}> 
                     <CloseIcon />
                 </IconButton>

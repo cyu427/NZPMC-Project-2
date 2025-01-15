@@ -6,6 +6,8 @@ import { useState } from "react";
 import QuestionOverviewType from "../../questions/QuestionOverviewType";
 import AdminDataTable from "../../utils/AdminDataTable";
 import SearchBar from "../../utils/SearchBar";
+import { useGetCompetition } from "../../../../services/competition/useGetCompetition";
+import { useRemoveQuestionFromCompetition } from "../../../../services/competition/useRemoveQuestionFromCompetition";
 
 interface AddQuestionToCompetitionDialogContentProps {
     onClose : () => void; 
@@ -15,13 +17,26 @@ interface AddQuestionToCompetitionDialogContentProps {
 
 const AddQuestionToCompetitionDialogContent: React.FC<AddQuestionToCompetitionDialogContentProps> = ({ onClose, refetchCompetition, competitionId }) => {
     const { mutate: addQuestionToCompetition } = useAddQuestionToCompetition();
-    const { data: allQuestions, isLoading: isGetAllQuestionLoading, isError: isGetAllQuestionError } = useGetAllQuestions();
+    const { mutate: removeQuestionFromCompetition } = useRemoveQuestionFromCompetition();
+    const { data: allQuestions, refetch: refetchAllQuestions } = useGetAllQuestions();
+    const { data: competitionData } = useGetCompetition(competitionId);
+
+    const questionIds = competitionData?.question.map((q) => q.id) || [];
 
     const handleAdd = (questionId: string ) => {
         addQuestionToCompetition({competitionId, questionId}, {
             onSuccess: () => {
+                refetchAllQuestions();
                 refetchCompetition();
-                onClose();
+            },
+        });
+    };
+
+    const handleRemove = (questionId: string) => {
+        removeQuestionFromCompetition({competitionId, questionId}, {
+            onSuccess: () => {
+                refetchAllQuestions();
+                refetchCompetition();
             },
         });
     };
@@ -37,20 +52,32 @@ const AddQuestionToCompetitionDialogContent: React.FC<AddQuestionToCompetitionDi
 
 
     const columns = [
-        { field: 'title', headerName: 'Questions', width: 700 },
+        { field: 'title', headerName: 'Questions', width: 630 },
         {
             field: 'details',
-            headerName: 'View',
-            width: 125,
-            renderCell: (params: GridRenderCellParams) => (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleAdd(params.row.id)}
-              >
-                Add
-              </Button>
-            ),
+            headerName: 'Add/Remove from Competition',
+            width: 220,
+            renderCell: (params: GridRenderCellParams) => {
+                const isInCompetition = questionIds.includes(params.row.id);
+
+                return isInCompetition ? (
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleRemove(params.row.id)}
+                    >
+                        Remove
+                    </Button>
+                ) : (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleAdd(params.row.id)}
+                    >
+                        Add
+                    </Button>
+                );
+            }
         },
     ];
 
