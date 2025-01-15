@@ -3,9 +3,6 @@ import QuestionTable from "../../../components/admin/questions/QuestionTable";
 import { useGetAllQuestions } from "../../../services/questions/useGetAllQuestions";
 import { useState } from "react";
 import CreateQuestionDialog from "../../../components/admin/questions/CreateQuestion/CreateQuestionDialog";
-import { useDeleteQuestion } from "../../../services/questions/useDeleteQuestion";
-import ViewQuestionDialog from "../../../components/admin/questions/ViewQuestion/ViewQuestionDialog";
-import { useGetQuestion } from "../../../services/questions/useGetQuestion";
 
 const AdminQuestionPage: React.FC = () => {
     const { data: allQuestions, refetch: refetchAllQuestions } = useGetAllQuestions();
