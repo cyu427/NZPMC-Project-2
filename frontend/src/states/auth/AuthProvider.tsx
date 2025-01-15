@@ -22,6 +22,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             setUserId(storedUserId);
             setRole(storedRole);
             setToken(storedToken);
+            setIsLoggedIn(true);
         }
     }, []);
 
