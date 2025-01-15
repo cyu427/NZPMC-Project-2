@@ -11,6 +11,8 @@ import AdminEventPage from './pages/Admin/ChildPages/AdminEventsPage';
 import AdminQuestionPage from './pages/Admin/ChildPages/AdminQuestionPage';
 import AdminCompetitionPage from './pages/Admin/ChildPages/AdminCompetitionPage';
 import AdminViewCompetitionPage from './pages/Admin/ChildPages/AdminViewCompetitionPage';
+import AttemptTemplatePage from './pages/AttemptPage/AttemptTemplatePage';
+import { AttemptProvider } from './states/attempt/AttemptProvider';
 
 function App() {
     const [queryClient] = useState(() => new QueryClient());
@@ -18,6 +20,7 @@ function App() {
     const router = createBrowserRouter([
         { path: "/", element: <LandingPage /> },
         { path: "/signed-in", element: <JoinEventRerenderProvider> <LandingPageSignedIn /> </JoinEventRerenderProvider>},
+        { path: "/attempt/:id", element: (<AttemptProvider> <AttemptTemplatePage /> </AttemptProvider> ) },
         { 
             path: "/admin", 
             element: <AdminLayout /> ,
@@ -26,7 +29,7 @@ function App() {
                 { path: "event", element: <AdminEventPage /> },
                 { path: "question", element: <AdminQuestionPage /> },
                 { path: "competition", element: <AdminCompetitionPage /> },
-                { path: "competition/:id", element: <AdminViewCompetitionPage /> }
+                { path: "competition/:id", element: (<AttemptProvider> <AdminViewCompetitionPage /> </AttemptProvider>) }
             ],
         }
     ])
