@@ -21,6 +21,7 @@ public class Event {
     private String location;
     private double cost;
     private String description;
+    private Date endDateTime;
 
     @DBRef(lazy = true)
     private Competition competition;
