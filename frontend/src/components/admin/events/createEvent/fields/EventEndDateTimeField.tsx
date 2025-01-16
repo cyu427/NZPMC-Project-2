@@ -3,25 +3,25 @@ import { CreateEventSchemaFormData } from "../../../../../schema/event/createEve
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
 
-const EventDateTimeField: React.FC<{
+const EventEndDateTimeField: React.FC<{
     control: Control<CreateEventSchemaFormData>;
     errors: FieldErrors<CreateEventSchemaFormData>;
 }> = ({ control, errors }) => (
     <Controller
-      name="dateTime"
+      name="endDateTime"
       control={control}
       defaultValue=""
       render={({ field }) => (
         <DateTimePicker
-            label="Event Starting Date & Time"
+            label="Event ending Date & Time"
             value={field.value ? dayjs(field.value) : null}
             onChange={(newValue) => field.onChange(newValue?.toISOString())}
             slotProps={{
               textField: {
                 fullWidth: true,
                 margin: 'normal',
-                error: !!errors.dateTime,
-                helperText: errors.dateTime?.message,
+                error: !!errors.endDateTime,
+                helperText: errors.endDateTime?.message,
               },
             }}
           />
@@ -29,4 +29,4 @@ const EventDateTimeField: React.FC<{
     />
 );
 
-export default EventDateTimeField;
+export default EventEndDateTimeField;

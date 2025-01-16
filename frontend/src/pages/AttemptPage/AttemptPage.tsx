@@ -1,6 +1,6 @@
 import { Button, Tab, Tabs, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import QuestionType from "../../components/admin/questions/ViewQuestion/QuestionType";
 import QuestionCard from "../../components/admin/competition/ViewCompetition/QuestionCard";
 import { useGetCompetition } from "../../services/competition/useGetCompetition";
@@ -10,7 +10,7 @@ import useAuth from "../../states/auth/useAuth";
 
 const AttemptPage: React.FC = () => {
     
-    const { id } = useParams();
+    const { id, dateTime } = useParams();
     const [activeTab, setActiveTab] = useState(0);
     const { answers, clearAnswers } = useAttempt();
     const navigate = useNavigate();
@@ -19,6 +19,10 @@ const AttemptPage: React.FC = () => {
     const { data: competitionData, error: isCompetitionError, isLoading: isGetCompetitionLoading } = useGetCompetition(id!);
     const { mutate: submitAttempt } = useSubmitAttempt();
     const tabPanelRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    if (dateTime) {
+        console.log("Date Data:", dateTime);
+    }
     
     //const navigate = useNavigate();
 
@@ -45,6 +49,41 @@ const AttemptPage: React.FC = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [activeTab]);
 
+    const handleSubmitAttempt = useCallback(() => {
+        submitAttempt({ userId: userId!, competitionId: id!, attempt: answers }, {
+            onSuccess: () => {
+                console.log("Attempt submitted successfully");
+                clearAnswers();
+            },
+            onError: (error) => {
+                console.error("Error submitting attempt", error);
+            },
+        });
+        navigate('/signed-in');
+    }, [submitAttempt, userId, id, answers, clearAnswers, navigate])
+
+    // Auto-submit logic using dateTime from URL param
+    useEffect(() => {
+        if (dateTime) {
+            const targetDateTime = new Date(dateTime);
+
+            const autoSubmitInterval = setInterval(() => {
+                console.log("Checking time for auto-submit:", targetDateTime.getMinutes());
+                
+                const currentTime = new Date();
+
+                // Check if the current time matches the target dateTime for auto-submit
+                if (currentTime >= targetDateTime) {
+                    handleSubmitAttempt(); // Submit the attempt if time has passed
+                    clearInterval(autoSubmitInterval); // Clear the interval after submission
+                }
+            }, 10000); // Check every minute
+
+            // Cleanup the interval on component unmount
+            return () => clearInterval(autoSubmitInterval);
+        }
+    }, [handleSubmitAttempt, dateTime]);
+
     if (isGetCompetitionLoading) {
         return <div>Loading...</div>;
     }
@@ -52,6 +91,7 @@ const AttemptPage: React.FC = () => {
     if (isCompetitionError) {
         return <div>Error...</div>;
     }
+    
 
     const handleScrollToPanel = (index: number) => {
         const panel = tabPanelRefs.current[index];
@@ -66,18 +106,7 @@ const AttemptPage: React.FC = () => {
         }
     };
 
-    const handleSubmitAttempt = () => {
-        submitAttempt({ userId: userId!, competitionId: id!, attempt: answers }, {
-            onSuccess: () => {
-                console.log("Attempt submitted successfully");
-                clearAnswers();
-            },
-            onError: (error) => {
-                console.error("Error submitting attempt", error);
-            },
-        });
-        navigate('/signed-in');
-    }
+    
     
 
     return (

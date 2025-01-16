@@ -27,5 +27,8 @@ public class EventDetailDTO {
     @NotNull(message = "Description is required")
     private String description;
 
+    @NotNull(message = "End Date time is required")
+    private Date endDateTime;
+
     private String competitionId;
 }

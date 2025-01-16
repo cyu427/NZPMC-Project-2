@@ -10,6 +10,14 @@ export const createEventSchema = z.object({
         },
         { message: "Event date and time must be in the future" }
     ),
+    endDateTime: z.string().datetime("Event ending date and time is required").refine(
+        (dateTimeString) => {
+            const inputDate = new Date(dateTimeString);
+            const currentDate = new Date();
+            return inputDate > currentDate;
+        },
+        { message: "Event date and time must be in the future" }
+    ),
     location: z.string().min(1, "Location is required"),
     cost : z.number().min(0, "Number must be positive 0 or larger").transform((val) => {
         // Ensure the number has two decimal places

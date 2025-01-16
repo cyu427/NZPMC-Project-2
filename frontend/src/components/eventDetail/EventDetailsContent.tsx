@@ -4,13 +4,14 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import { Button, Dialog } from "@mui/material";
+import { Button, Dialog, Typography } from "@mui/material";
 import { useGetEventsStudentsJoined } from "../../services/events/useGetEventsStudentJoined";
 import useAuth from "../../states/auth/useAuth";
 import { useNavigate } from "react-router";
 import Role from "../../utils/Role";
 import MarkCompetitionDialog from "../admin/competition/MarkCompetition/MarkCompetitionDialog";
 import { useState } from "react";
+import { useGetEvent } from "../../services/events/useGetEvent";
 
 interface EventDetailsContentProps {
     eventDetails: EventDetails;
@@ -21,10 +22,12 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
     const { formattedDate, formattedTime } = timeFormatter({ dateTime: eventDetails.dateTime });
     const { data: eventJoined, isLoading: isEventJoinedLoading, isError: isEventJoinedError } = useGetEventsStudentsJoined(userId!);
     const navigate = useNavigate();
-    const handleStartCompetition = (id: string) => {navigate(`/attempt/${id}`);}
-    console.log("Event details:", eventDetails);
-
     
+    const { data: event } = useGetEvent(eventDetails.id);
+    const endDateTime = event?.endDateTime;
+    const { formattedDate: endDate, formattedTime: endTime } = timeFormatter({ dateTime: endDateTime });
+
+    const handleStartCompetition = (id: string, dateTime: string) => {navigate(`/attempt/${id}/${dateTime}`);}
 
     const [markCompetitionDialogOpen, setMarkCompetitionDialogOpen] = useState(false);
     const handleCloseMarkCompetitionDialog = () => {setMarkCompetitionDialogOpen(false);}
@@ -46,11 +49,21 @@ const EventDetailsContent: React.FC<EventDetailsContentProps> = ({ eventDetails 
     const eventDetailsContentButton = () => {
         if (role===Role.STUDENT &&isEventJoined && eventDetails.competitionId) {
             return (
-                <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!)}> Start Competition </Button>
+                <div className="flex flex-col items-center gap-2 mb-2 w-full">
+                    <Button variant="contained" fullWidth onClick={() => handleStartCompetition(eventDetails.competitionId!, eventDetails.endDateTime)}> Start Competition </Button>
+                    <Typography color="error" variant="body2" align="center">
+                        Submission deadline: {endDate +  " " + endTime}
+                    </Typography>
+                </div>
             );
         } else if (role===Role.ADMIN && eventDetails.competitionId) {
             return (
-                <Button variant="contained" fullWidth onClick={handleMarkCompetition}> Mark Competition </Button>
+                <div className="flex flex-col items-center gap-2 mb-2 w-full">
+                    <Button variant="contained" fullWidth onClick={handleMarkCompetition}> Mark Competition </Button>
+                    <Typography color="error" variant="body2" align="center">
+                        Submission deadline: {endDate +  " " + endTime}
+                    </Typography>
+                </div>
             );
         } else {
             return (<div></div>)
