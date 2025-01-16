@@ -5,11 +5,12 @@ import { CreateQuestionFormData } from "../../../../../schema/question/createQue
 const QuestionField: React.FC<{
     control: Control<CreateQuestionFormData>;
     errors: FieldErrors<CreateQuestionFormData>;
-}> = ({ control, errors }) => (
+    defaultValue?: string;
+}> = ({ control, errors, defaultValue = "" }) => (
     <Controller
         name="question"
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         render={({ field }) => (
             <TextField
                 {...field}
