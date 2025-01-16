@@ -8,6 +8,7 @@ import EventLocationField from "./fields/EventLocationField";
 import EventDateTimeField from "./fields/EventDateTimeField";
 import EventCostField from "./fields/EventCostField";
 import EventDescriptionField from "./fields/event-description/EventDescriptionField";
+import EventEndDateTimeField from "./fields/EventEndDateTimeField";
 
 interface CreateEventDialogContentProps {
     onClose : () => void; 
@@ -37,6 +38,7 @@ const CreateEventDialogContent: React.FC<CreateEventDialogContentProps> = ({ onC
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <EventNameField control={control} errors={errors} />
                         <EventDateTimeField control={control} errors={errors} />
+                        <EventEndDateTimeField control={control} errors={errors} />
                         <EventLocationField control={control} errors={errors} />
                         <EventCostField control={control} errors={errors} />
                         <EventDescriptionField control={control} errors={errors} />
