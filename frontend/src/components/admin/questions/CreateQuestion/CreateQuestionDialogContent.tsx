@@ -8,6 +8,9 @@ import QuestionField from "./fields/QuestionField";
 import FormFieldNames from "./fields/FormFieldNames";
 import OptionField from "./fields/OptionField";
 import AnswerField from "./fields/AnswerField";
+import DifficultyField from "./fields/DifficultyField";
+import { Topic } from "@mui/icons-material";
+import TopicField from "./fields/TopicField";
 
 interface CreateQuestionDialogContentProps {
     onClose : () => void; 
@@ -23,6 +26,7 @@ const CreateQuestionDialogContent: React.FC<CreateQuestionDialogContentProps> = 
 
     const onSubmit = (data: CreateQuestionFormData) => {
         const createdQuestion = createQuestionMapping(data);
+        console.log(createdQuestion);
         createQuestion(createdQuestion, {
             onSuccess: () => {
                 refetchAllQuestions();
@@ -36,6 +40,11 @@ const CreateQuestionDialogContent: React.FC<CreateQuestionDialogContentProps> = 
             <DialogContent>
                 <div className="flex flex-col gap-1">
                     <QuestionField control={control} errors={errors} />
+                    <div className="flex justify-between mb-8 items-start w-full">
+                        <TopicField control={control} />
+                        <DifficultyField control={control} />
+                    </div>
+                    
                     
                     {[...Array(4)].map((_, index) => {
                         const optionName: FormFieldNames = `option${index + 1}` as FormFieldNames;
