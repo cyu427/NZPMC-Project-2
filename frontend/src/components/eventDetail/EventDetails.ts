@@ -6,7 +6,7 @@ interface EventDetails {
     location: string;
     cost: number;
     description: string;
-    competitionId: string | null; 
+    competitionId?: string | null; 
 }
 
 export type { EventDetails };

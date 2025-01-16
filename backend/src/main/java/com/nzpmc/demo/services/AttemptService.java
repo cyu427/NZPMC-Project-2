@@ -1,6 +1,8 @@
 package com.nzpmc.demo.services;
 
+import com.nzpmc.demo.dto.attempt.MarkCompetitionDTO;
 import com.nzpmc.demo.dto.event.EventDetailDTO;
+import com.nzpmc.demo.mapper.attempt.MarkCompetitionMapper;
 import com.nzpmc.demo.mapper.event.EventDetailMapper;
 import com.nzpmc.demo.models.*;
 import com.nzpmc.demo.repository.AccountRepository;
@@ -10,6 +12,7 @@ import com.nzpmc.demo.repository.EventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -35,5 +38,12 @@ public class AttemptService {
         attempt.setAttempts(attempts);
 
         attemptRepository.save(attempt);
+    }
+
+    public MarkCompetitionDTO markAttempt(String competitionId) {
+        competitionRepository.findById(competitionId).orElseThrow(()-> new NoSuchElementException("Could not find competition with id"));
+        List<Attempt> attempts = attemptRepository.findByCompetitionId(competitionId);
+
+        return new MarkCompetitionMapper().convertToDTO(attempts);
     }
 }
