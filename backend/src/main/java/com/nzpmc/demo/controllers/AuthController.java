@@ -3,7 +3,9 @@ package com.nzpmc.demo.controllers;
 import com.nzpmc.demo.config.UserAuthenticationProvider;
 import com.nzpmc.demo.dto.auth.CredentialsDTO;
 import com.nzpmc.demo.dto.auth.UserLoginDTO;
+import com.nzpmc.demo.dto.student.StudentRegistrationDTO;
 import com.nzpmc.demo.services.AuthService;
+import com.nzpmc.demo.services.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import java.util.NoSuchElementException;
 public class AuthController {
 
     private final AuthService authService;
+    private final StudentService studentService;
     private final UserAuthenticationProvider userAuthenticationProvider;
 
     @PostMapping("/login")
@@ -33,6 +36,16 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Competition with username " + credentialsDto.getEmail() + " not found.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity createAccount(@Valid @RequestBody StudentRegistrationDTO studentRegistrationDTO) {
+        try {
+            studentService.createStudent(studentRegistrationDTO);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

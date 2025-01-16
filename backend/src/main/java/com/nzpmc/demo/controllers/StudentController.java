@@ -43,14 +43,5 @@ public class StudentController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity createAccount(@Valid @RequestBody StudentRegistrationDTO studentRegistrationDTO) {
-        try {
-            studentService.createStudent(studentRegistrationDTO);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
 
-    }
 }

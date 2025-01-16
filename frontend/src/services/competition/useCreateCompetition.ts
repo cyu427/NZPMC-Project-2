@@ -1,9 +1,9 @@
 import { useMutation, } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../states/auth/useAuth";
-import { CompetitionSchemaFormData } from "../../schema/competition/createCompetitionSchema";
+import { CreateCompetitionSchemaFormData } from "../../schema/competition/createCompetitionSchema";
 
-const createCompetition = (competition: CompetitionSchemaFormData, token: string) =>
+const createCompetition = (competition: CreateCompetitionSchemaFormData, token: string) =>
     axios.post('http://localhost:8080/admin/competition', competition, {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -14,7 +14,7 @@ export const useCreateCompetition = () => {
     const { token } = useAuth();
 
     return useMutation({
-        mutationFn: (competition: CompetitionSchemaFormData) => {
+        mutationFn: (competition: CreateCompetitionSchemaFormData) => {
             if (!token) {
                 throw new Error("Token is not available");
             }
