@@ -20,7 +20,7 @@ function App() {
     const router = createBrowserRouter([
         { path: "/", element: <LandingPage /> },
         { path: "/signed-in", element: <JoinEventRerenderProvider> <LandingPageSignedIn /> </JoinEventRerenderProvider>},
-        { path: "/attempt/:id", element: (<AttemptProvider> <AttemptTemplatePage /> </AttemptProvider> ) },
+        { path: "/attempt/:id/:dateTime", element: (<AttemptProvider> <AttemptTemplatePage /> </AttemptProvider> ) },
         { 
             path: "/admin", 
             element: <AdminLayout /> ,
