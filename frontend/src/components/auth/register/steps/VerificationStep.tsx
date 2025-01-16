@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import RegisterStateType from "../../../../states/register/RegisterStepType";
+import { useCreateAccount } from "../../../../services/register/useCreateAccount";
 
 interface AccountData {
     email: string;
@@ -27,7 +28,9 @@ const VerificationStep = () => {
     //     setStep(5)
     // }, [isSuccess, setStep])
 
-    const onSubmit = async (data: VerificationFormData) => {
+    const {mutate: createAccount} = useCreateAccount();
+
+    const onSubmit = (data: VerificationFormData) => {
         setFormData((prev) => ({ ...prev, ...data }))
         const accountData: AccountData = {
             email: formData.email,
@@ -37,9 +40,14 @@ const VerificationStep = () => {
             homeSchooled: formData.homeSchooled,
             school: formData.school,
         };
-        setStep(5);
-        
         console.log(accountData);
+        createAccount(accountData, {
+            onSuccess: () => {
+                setStep(5);
+            }
+        });
+
+        // setStep(5);
     }
 
 
