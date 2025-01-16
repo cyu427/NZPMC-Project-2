@@ -1,13 +1,14 @@
-import { Button, Dialog } from "@mui/material";
-import React, { useState } from "react";
+import { Button, Dialog, Tab, Tabs } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SignInDialog from "../auth/signin/SignInDialog";
 import RegisterProvider from "../../states/register/RegisterProvider";
 import RegisterDialog from "../auth/register/dialog/RegisterDialog";
 import useAuth from "../../states/auth/useAuth";
 import { useNavigate } from "react-router";
+import Role from "../../utils/Role";
 
 const Navigation: React.FC = () => {
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, role } = useAuth();
     const navigate = useNavigate();
 
     const [openSignInDialog, setOpenSignInDialog] = useState(false);
@@ -23,6 +24,36 @@ const Navigation: React.FC = () => {
         logout();
         navigate('/');
     }
+
+    const [selectedTab, setSelectedTab] = useState(0);
+
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setSelectedTab(newValue);
+        switch (newValue) {
+            case 0:
+                navigate('/admin/event');  // Navigate to /events
+                break;
+            case 1:
+                navigate('/admin/competition');  // Navigate to /competition
+                break;
+            case 2:
+                navigate('/admin/question');  // Navigate to /question
+                break;
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
+        // Sync the active tab with the current route
+        if (location.pathname === '/events') {
+            setSelectedTab(0);
+        } else if (location.pathname === '/competition') {
+            setSelectedTab(1);
+        } else if (location.pathname === '/question') {
+            setSelectedTab(2);
+        }
+    }, [location.pathname]);
 
 
     const notLoggedInButtons = (
@@ -51,8 +82,18 @@ const Navigation: React.FC = () => {
                 <h5 className="text-logo-blue primary ml-6 text-xl">
                     NZPMC
                 </h5>
+                <div className="flex-grow flex justify-end mr-20">
+                    {role === Role.ADMIN && (
+                        <Tabs value={selectedTab} onChange={handleTabChange} aria-label="navigation tabs">
+                            <Tab label="Events" />
+                            <Tab label="Competition" />
+                            <Tab label="Question" />
+                        </Tabs>
+                    )}
+                </div>
 
                 <div>
+                    
                     { isLoggedIn ? loggedInButtons : notLoggedInButtons }
                 </div>
             </div>
