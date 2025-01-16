@@ -27,7 +27,7 @@ function App() {
             children: [
                 { index: true, element: <div>Welcome to Admin Panel</div> },
                 { path: "event", element: <AdminEventPage /> },
-                { path: "question", element: <AdminQuestionPage /> },
+                { path: "question", element: (<JoinEventRerenderProvider> <AdminQuestionPage /> </JoinEventRerenderProvider>) },
                 { path: "competition", element: <AdminCompetitionPage /> },
                 { path: "competition/:id", element: (<AttemptProvider> <AdminViewCompetitionPage /> </AttemptProvider>) }
             ],

@@ -3,9 +3,10 @@ import { useGetAllEvents } from "../../../services/events/useGetAllEvents";
 import EventCard from "../../../components/eventListOverview/eventCard/EventCard";
 import EventCardModes from "../../../components/eventListOverview/eventCard/utils/EventCardModes";
 import EventOverviewType from "../../../components/eventListOverview/eventCard/utils/EventOverviewType";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../../../components/admin/events/SearchBar"; 
 import CreateEventDialog from "../../../components/admin/events/createEvent/CreateEventDialog";
+import useJoinEventRerender from "../../../states/joinEvent/useJoinEventRerender";
 
 const AdminEventPage: React.FC = () => {
     const { data: events, isLoading, isError, refetch: refetchAllEvents } = useGetAllEvents();
@@ -15,6 +16,15 @@ const AdminEventPage: React.FC = () => {
     const [createEventDialogOpen, setCreateEventDialogOpen] = useState(false);
     const handleCreateEvent = () => {setCreateEventDialogOpen(true);}
     const handleCloseCreateEventDialog = () => {setCreateEventDialogOpen(false);}
+
+    const { rerenderState } = useJoinEventRerender();
+
+    useEffect(() => {
+        if (rerenderState) {
+            // Refetch both events
+            refetchAllEvents();
+        }
+    }, [rerenderState, refetchAllEvents]);
 
     const eventsPerPage = 12; // 4 events per row, 3 rows max
 

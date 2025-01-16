@@ -7,6 +7,8 @@ import { useJoinEvent } from "../../../../services/events/useJoinEvent";
 import useAuth from "../../../../states/auth/useAuth";
 import useJoinEventRerender from "../../../../states/joinEvent/useJoinEventRerender";
 import { set } from "zod";
+import EditEventDialog from "../../../event/editEvent/EditEventDialog";
+import { useUpdateEvent } from "../../../../services/events/useUpdateEvent";
 
 interface EventButtonGroupProps {
     leftLabel?: string;
@@ -26,6 +28,10 @@ const EventButtonGroup: React.FC<EventButtonGroupProps> = ({ leftLabel, rightLab
     const handleEventDialog = () => {setOpenEventDialog(true);}
     const handleCloseEventDialog = () => {setOpenEventDialog(false);}
 
+    const [editEventDialogOpen, setEditEventDialogOpen] = useState(false);
+    const handleEditEvent = () => {setEditEventDialogOpen(true);}
+    const handleCloseEditEventDialog = () => {setEditEventDialogOpen(false);}
+
     const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
     const { setRerenderState, rerenderState } = useJoinEventRerender();
     const { userId } = useAuth();
@@ -40,6 +46,12 @@ const EventButtonGroup: React.FC<EventButtonGroupProps> = ({ leftLabel, rightLab
             setRerenderState(Math.random());
         }
     }, [isJoinSuccess, setRerenderState]);
+
+    useEffect(() => {
+        if (!editEventDialogOpen) {
+            setRerenderState(Math.random());
+        }
+    }, [editEventDialogOpen]);
     
 
     let onLeftClick;
@@ -53,7 +65,7 @@ const EventButtonGroup: React.FC<EventButtonGroupProps> = ({ leftLabel, rightLab
         onRightClick = handleJoinEvent;
     } else if (mode === EventCardModes.ADMIN) {
         onLeftClick = handleEventDialog;
-        onRightClick = () => {};
+        onRightClick = handleEditEvent;
     }
 
     return (
@@ -81,6 +93,10 @@ const EventButtonGroup: React.FC<EventButtonGroupProps> = ({ leftLabel, rightLab
 
             <Dialog open={openEventDialog} onClose={handleCloseEventDialog} fullWidth maxWidth="sm">
                 <EventDetailsDialog onClose={handleCloseEventDialog} eventId={id} />
+            </Dialog>
+
+            <Dialog open={editEventDialogOpen} onClose={handleCloseEditEventDialog} fullWidth maxWidth="md">
+                <EditEventDialog onClose={handleCloseEditEventDialog} eventId={id} /> 
             </Dialog>
 
             <Snackbar
