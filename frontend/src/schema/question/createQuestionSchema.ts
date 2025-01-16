@@ -10,6 +10,8 @@ export const createQuestionSchema = z.object({
     answer2: z.boolean(),
     answer3: z.boolean(),
     answer4: z.boolean(),
+    difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
+    topic: z.enum(["MECHANICS", "WAVES", "ALGEBRA", "GEOMETRY"]),
 })
 
 export type CreateQuestionFormData = z.infer<typeof createQuestionSchema>
