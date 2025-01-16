@@ -4,9 +4,10 @@ interface SearchBarProps {
     label: string;
     value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    width: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, label }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, label, width }) => {
     return (
         <div className="flex justify-center mb-4">
             <TextField
@@ -14,7 +15,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, label }) => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
-                sx={{ width: "1200px" }}
+                sx={{ width }}
             />
         </div>
     );
