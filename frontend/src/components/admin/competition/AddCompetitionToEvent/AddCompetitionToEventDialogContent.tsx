@@ -96,7 +96,7 @@ const AddCompetitionToEventDialogContent: React.FC<AddCompetitionToEventDialogCo
 
     return (
         <div className="mt-2">
-            <SearchBar label="Search by Event name" value={searchTerm} onChange={handleSearchChange} />
+            <SearchBar label="Search by Event name" value={searchTerm} onChange={handleSearchChange} width="1200px" />
             <AdminDataTable columns={columns} rows={filteredEvents} height={630} width={850}/>
         </div>
     );

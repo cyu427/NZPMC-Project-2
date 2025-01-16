@@ -70,7 +70,7 @@ const CompetitionTable: React.FC<CompetitionTableProps> = ({ allCompetition, ref
 
     return (
         <>
-            <SearchBar label="Search by Competition name" value={searchTerm} onChange={handleSearchChange} />
+            <SearchBar label="Search by Competition name" value={searchTerm} onChange={handleSearchChange} width="1200px" />
             <AdminDataTable columns={columns} rows={filteredQuestions} height={630} width={1200}/>
 
             {/* <Dialog open={vieweQuestionDialogOpen} onClose={handleCloseViewQuestionDialog} fullWidth maxWidth="md">
