@@ -117,7 +117,7 @@ const AdminViewCompetitionPage: React.FC = () => {
                     <div className="flex-1 ml-5">
                         {competitionData.question.map((question: QuestionType, index: number) => (
                             <div key={question.id} ref={(el) => (tabPanelRefs.current[index] = el)} className="mb-5">
-                                <QuestionCard questionId={question.id!} question={question} index={index + 1} />
+                                <QuestionCard questionId={question.id!} question={question} index={index + 1} competitionId={id} refreshCompetition={refetchCompetition} />
                             </div>
                         ))}
                     </div>
