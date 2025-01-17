@@ -1,5 +1,6 @@
 package com.nzpmc.demo.controllers.admin;
 
+import com.nzpmc.demo.dto.student.GetAllStudentDTO;
 import com.nzpmc.demo.services.StudentService;
 import com.nzpmc.demo.projection.AccountProjection;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class AdminAccountController {
     @GetMapping
     public ResponseEntity getAllStudents() {
         try {
-            List<AccountProjection> allStudents = studentService.getAllStudents();
+            List<GetAllStudentDTO> allStudents = studentService.getAllStudents();
             return ResponseEntity.ok(allStudents);
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
