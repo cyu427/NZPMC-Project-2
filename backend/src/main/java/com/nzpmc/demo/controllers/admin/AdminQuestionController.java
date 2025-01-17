@@ -62,10 +62,17 @@ public class AdminQuestionController {
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity deleteQuestion(@PathVariable String id) {
-        questionService.deleteQuestion(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable String id) {
+        try {
+            questionService.deleteQuestion(id);
+            return ResponseEntity.ok("Question deleted successfully");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Error: " + e.getMessage());
+        }
     }
+
 
 }

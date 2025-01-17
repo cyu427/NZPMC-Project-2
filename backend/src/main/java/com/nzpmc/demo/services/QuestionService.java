@@ -18,6 +18,7 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final CompetitionRepository competitionRepository;
 
     public Question createQuestion(QuestionDTO questionDTO) {
         Question question = new QuestionMapper().convertToModel(questionDTO);
@@ -43,6 +44,23 @@ public class QuestionService {
     }
 
     public void deleteQuestion(String id) {
+        Question question = questionRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Could not find question with id " + id));
+
+        // Find all competitions associated with this question
+        List<Competition> competitions = competitionRepository.findAll(); // Retrieve all competitions
+
+        // Iterate through each competition to remove the question
+        for (Competition competition : competitions) {
+            // Check if the competition has this question
+            if (competition.getQuestions().contains(question)) {
+                competition.getQuestions().remove(question); // Remove the question from the competition
+                competitionRepository.save(competition); // Save the updated competition
+            }
+        }
+
+        questionRepository.deleteById(id);
+
+        // Delete the question
         questionRepository.deleteById(id);
     }
 
