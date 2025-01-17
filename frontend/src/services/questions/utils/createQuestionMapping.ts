@@ -29,3 +29,19 @@ export const createQuestionMapping = (data: CreateQuestionFormData): QuestionPay
       };
   };
 
+export const mapToQuestionFormData = (question: QuestionPayload): CreateQuestionFormData => {
+    return {
+        question: question.question,
+        difficulty: question.difficulty as DifficultyType,
+        topic: question.topic as TopicType,
+        option1: question.options[0].text,
+        answer1: question.options[0].isCorrect,
+        option2: question.options[1].text,
+        answer2: question.options[1].isCorrect,
+        option3: question.options[2].text,
+        answer3: question.options[2].isCorrect,
+        option4: question.options[3].text,
+        answer4: question.options[3].isCorrect,
+    };
+};
+
