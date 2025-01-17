@@ -90,8 +90,12 @@ const QuestionTable: React.FC<QuestionTableProps> = ({ allQuestions, refetchAllQ
 
 
     const handleDelete = (id: string) => {
-        deleteQuestion(id);
-        refetchAllQuestions();
+      deleteQuestion(id, {
+        onSuccess: () => {
+            // Refetch the questions list after deletion
+            refetchAllQuestions();
+        },
+      });
     }
 
     return (
@@ -121,14 +125,14 @@ const QuestionTable: React.FC<QuestionTableProps> = ({ allQuestions, refetchAllQ
                     </Select>
                 </FormControl>
                 <div className="flex w-full justify-end">
-                  <SearchBar label="Search by Question name" value={searchTerm} onChange={() => handleSearchChange} width="870px" />
+                  <SearchBar label="Search by Question name" value={searchTerm} onChange={handleSearchChange} width="870px" />
                 </div>
             </div>
 
             <AdminDataTable columns={columns} rows={filteredQuestions} height={630} width={1200}/>
 
             <Dialog open={vieweQuestionDialogOpen} onClose={handleCloseViewQuestionDialog} fullWidth maxWidth="md">
-                <ViewQuestionDialog onClose={handleCloseViewQuestionDialog} id={questionId} /> 
+                <ViewQuestionDialog onClose={handleCloseViewQuestionDialog} id={questionId} refetchAllQuestions={refetchAllQuestions} /> 
             </Dialog>
         </>
     );
