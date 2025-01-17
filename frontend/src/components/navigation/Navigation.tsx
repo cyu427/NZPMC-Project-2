@@ -4,12 +4,13 @@ import SignInDialog from "../auth/signin/SignInDialog";
 import RegisterProvider from "../../states/register/RegisterProvider";
 import RegisterDialog from "../auth/register/dialog/RegisterDialog";
 import useAuth from "../../states/auth/useAuth";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Role from "../../utils/Role";
 
 const Navigation: React.FC = () => {
     const { isLoggedIn, logout, role } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [openSignInDialog, setOpenSignInDialog] = useState(false);
     const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
@@ -45,15 +46,23 @@ const Navigation: React.FC = () => {
     };
 
     useEffect(() => {
-        // Sync the active tab with the current route
-        if (location.pathname === '/events') {
-            setSelectedTab(0);
-        } else if (location.pathname === '/competition') {
-            setSelectedTab(1);
-        } else if (location.pathname === '/question') {
-            setSelectedTab(2);
+        // Sync the active tab with the current route when the component mounts
+        console.log(location.pathname);
+        switch (location.pathname) {
+            case '/admin/event':
+                setSelectedTab(0);
+                break;
+            case '/admin/competition':
+                setSelectedTab(1);
+                break;
+            case '/admin/question':
+                setSelectedTab(2);
+                break;
+            default:
+                setSelectedTab(0); // Default to the first tab if no match
+                break;
         }
-    }, [location.pathname]);
+    }, [location.pathname]);  // This will run when the path changes
 
 
     const notLoggedInButtons = (
