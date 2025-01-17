@@ -10,7 +10,7 @@ import DifficultyField from "../CreateQuestion/fields/DifficultyField";
 import FormFieldNames from "../CreateQuestion/fields/FormFieldNames";
 import OptionField from "../CreateQuestion/fields/OptionField";
 import AnswerField from "../CreateQuestion/fields/AnswerField";
-import { createQuestionMapping } from "../../../../services/questions/utils/createQuestionMapping";
+import { createQuestionMapping, mapToQuestionFormData } from "../../../../services/questions/utils/createQuestionMapping";
 
 interface EditQuestionDialogContentProps {
     onClose : () => void; 
@@ -21,9 +21,11 @@ const EditEventDialogContent: React.FC<EditQuestionDialogContentProps> = ({ onCl
     const { data: questionData } = useGetQuestion(questionId);
     const { mutate: updateQuestion } = useUpdateQuestion();
 
+    const fortmattedQuestionData = mapToQuestionFormData(questionData);
+
     const { control, handleSubmit, formState: { errors } } = useForm<CreateQuestionFormData>({
         resolver: zodResolver(createQuestionSchema),
-        defaultValues: questionData, // Prefill the form with existing event data
+        defaultValues: fortmattedQuestionData, // Prefill the form with existing event data
     });
 
     const onSubmit = (data: CreateQuestionFormData) => {

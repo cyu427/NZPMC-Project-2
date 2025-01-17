@@ -6,9 +6,10 @@ import ViewQuestionDialogContent from "./ViewQuestionDialogContent";
 interface ViewQuestionDialogProps {
     onClose: () => void;
     id: string;
+    refetchAllQuestions: () => void;
 }
 
-const ViewQuestionDialog: React.FC<ViewQuestionDialogProps> = ({ onClose, id }) => {
+const ViewQuestionDialog: React.FC<ViewQuestionDialogProps> = ({ onClose, id, refetchAllQuestions }) => {
     const { data: questionData, isLoading, isError } = useGetQuestion(id);
     
 
@@ -24,7 +25,7 @@ const ViewQuestionDialog: React.FC<ViewQuestionDialogProps> = ({ onClose, id }) 
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <ViewQuestionDialogContent id={id} questionData={questionData} />
+                <ViewQuestionDialogContent id={id} questionData={questionData} refetchAllQuestions={refetchAllQuestions} onClose={onClose}/>
             </DialogContent>
         </Dialog>
     );

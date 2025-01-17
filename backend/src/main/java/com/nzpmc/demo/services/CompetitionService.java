@@ -118,4 +118,19 @@ public class CompetitionService {
         // Save the updated competition to the repository
         competitionRepository.save(competition);
     }
+
+    public void removeCompetition(String id) {
+        Competition competition = competitionRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Could not find competition with id " + id));
+
+        // Find all events associated with the competition
+        List<Event> events = eventRepository.findByCompetition(competition);
+
+        // Remove the competition from each event
+        for (Event event : events) {
+            event.setCompetition(null);  // Nullify the competition reference
+            eventRepository.save(event);  // Save the updated event
+        }
+
+        competitionRepository.delete(competition);
+    }
 }

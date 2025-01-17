@@ -83,14 +83,6 @@ const AddCompetitionToEventDialogContent: React.FC<AddCompetitionToEventDialogCo
                     );
                 }
             }
-
-            //   <Button
-            //     variant="contained"
-            //     color="primary"
-            //     onClick={() => handleAdd(params.row.id)}
-            //   >
-            //     Add
-            //   </Button>
         },
     ];
 

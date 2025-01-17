@@ -1,7 +1,9 @@
 package com.nzpmc.demo.services;
 
+import com.nzpmc.demo.dto.student.GetAllStudentDTO;
 import com.nzpmc.demo.dto.student.StudentProfileDTO;
 import com.nzpmc.demo.dto.student.StudentRegistrationDTO;
+import com.nzpmc.demo.mapper.student.AllStudentMapper;
 import com.nzpmc.demo.mapper.student.StudentProfileMapper;
 import com.nzpmc.demo.mapper.student.StudentRegistrationMapper;
 import com.nzpmc.demo.models.Account;
@@ -47,8 +49,12 @@ public class StudentService {
         accountRepository.save(account);
     }
 
-    public List<AccountProjection> getAllStudents() {
-        return accountRepository.findByRole(Role.STUDENT);
+    public List<GetAllStudentDTO> getAllStudents() {
+        List<Account> allStudents = accountRepository.findByRole(Role.STUDENT);
+        AllStudentMapper allStudentMapper = new AllStudentMapper();
+        return allStudents.stream()
+                .map(allStudentMapper::convertToDTO)
+                .toList();
     }
 
 

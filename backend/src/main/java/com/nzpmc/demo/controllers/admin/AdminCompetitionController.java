@@ -113,6 +113,18 @@ public class AdminCompetitionController {
         }
     }
 
+    @DeleteMapping("deleteCompetition/{competitionId}")
+    public ResponseEntity<String> removeCompetition(@PathVariable String competitionId) {
+        try {
+            competitionService.removeCompetition(competitionId);
+            return ResponseEntity.ok("Competition with ID " + competitionId + " has been successfully removed.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
 
 
 

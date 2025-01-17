@@ -13,6 +13,7 @@ import AdminCompetitionPage from './pages/Admin/ChildPages/AdminCompetitionPage'
 import AdminViewCompetitionPage from './pages/Admin/ChildPages/AdminViewCompetitionPage';
 import AttemptTemplatePage from './pages/AttemptPage/AttemptTemplatePage';
 import { AttemptProvider } from './states/attempt/AttemptProvider';
+import AdminStudentPage from './pages/Admin/ChildPages/AdminStudentPage';
 
 function App() {
     const [queryClient] = useState(() => new QueryClient());
@@ -29,6 +30,7 @@ function App() {
                 { path: "event", element: <AdminEventPage /> },
                 { path: "question", element: (<JoinEventRerenderProvider> <AdminQuestionPage /> </JoinEventRerenderProvider>) },
                 { path: "competition", element: <AdminCompetitionPage /> },
+                { path: "student", element: <AdminStudentPage/> },
                 { path: "competition/:id", element: (<AttemptProvider> <AdminViewCompetitionPage /> </AttemptProvider>) }
             ],
         }
