@@ -5,6 +5,7 @@ import { useState } from "react";
 import SearchBar from "../utils/SearchBar";
 import CompetitionOverviewType from "./CompetitionOverviewType";
 import { useNavigate } from "react-router";
+import { useDeleteCompetition } from "../../../services/competition/useDeleteCompetition";
 
 interface CompetitionTableProps {
     allCompetition: CompetitionOverviewType[];
@@ -36,7 +37,7 @@ const CompetitionTable: React.FC<CompetitionTableProps> = ({ allCompetition, ref
               <Button
                 variant="contained"
                 color="primary"
-                //onClick={() => handleDelete(params.row.id)}
+                onClick={() => handleDeleteCompetition(params.row.id)}
                 sx = {{backgroundColor: 'red'}}
               >
                 Delete
@@ -63,10 +64,14 @@ const CompetitionTable: React.FC<CompetitionTableProps> = ({ allCompetition, ref
         competition.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // const handleDelete = (id: string) => {
-    //     deleteQuestion(id);
-    //     refetchAllQuestions();
-    // }
+    const { mutate: deleteCompetition } = useDeleteCompetition();
+    const handleDeleteCompetition = (competitionId: string) => {
+      deleteCompetition(competitionId, {
+          onSuccess: () => {
+            refetchAllCompetition();
+          },
+      });
+  };
 
     return (
         <>

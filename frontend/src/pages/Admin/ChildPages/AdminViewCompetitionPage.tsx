@@ -7,6 +7,7 @@ import QuestionCard from "../../../components/admin/competition/ViewCompetition/
 import AddQuestionToCompetitionDialog from "../../../components/admin/competition/AddQuestionToCompetition/AddQuestionToCompetitionDialog";
 import AddCompetitionToEventDialog from "../../../components/admin/competition/AddCompetitionToEvent/AddCompetitionToEventDialog";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useDeleteCompetition } from "../../../services/competition/useDeleteCompetition";
 
 const AdminViewCompetitionPage: React.FC = () => {
     const { id } = useParams();
@@ -24,6 +25,8 @@ const AdminViewCompetitionPage: React.FC = () => {
     const [addCompetitionToEventDialogOpen, setAddCompetitionToEventDialogOpen] = useState(false);
     const handleAddCompetitionToEvent = () => {setAddCompetitionToEventDialogOpen(true);}
     const handleCloseAddCompetitionToEventDialog = () => {setAddCompetitionToEventDialogOpen(false);}
+
+    const { mutate: deleteCompetition } = useDeleteCompetition();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -67,6 +70,14 @@ const AdminViewCompetitionPage: React.FC = () => {
             });
             setActiveTab(index); // Update the active tab when clicked
         }
+    };
+
+    const handleDeleteCompetition = (competitionId: string) => {
+        deleteCompetition(competitionId, {
+            onSuccess: () => {
+                navigate('/admin/competition');
+            },
+        });
     };
 
     
@@ -128,7 +139,7 @@ const AdminViewCompetitionPage: React.FC = () => {
                 </Typography>
             )}
             <div className="mb-5 mt-5">
-                <Button variant="outlined" color="error" fullWidth>
+                <Button variant="outlined" color="error" fullWidth onClick={() => handleDeleteCompetition(id!)} >
                     Delete Competition
                 </Button>
             </div>
