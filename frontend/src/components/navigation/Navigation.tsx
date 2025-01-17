@@ -40,6 +40,9 @@ const Navigation: React.FC = () => {
             case 2:
                 navigate('/admin/question');  // Navigate to /question
                 break;
+            case 3:
+                navigate('/admin/student');  // Navigate to /question
+                break;
             default:
                 break;
         }
@@ -57,6 +60,9 @@ const Navigation: React.FC = () => {
                 break;
             case '/admin/question':
                 setSelectedTab(2);
+                break;
+            case '/admin/student':
+                setSelectedTab(3);
                 break;
             default:
                 setSelectedTab(0); // Default to the first tab if no match
@@ -97,6 +103,7 @@ const Navigation: React.FC = () => {
                             <Tab label="Events" />
                             <Tab label="Competition" />
                             <Tab label="Question" />
+                            <Tab label="Student" />
                         </Tabs>
                     )}
                 </div>
